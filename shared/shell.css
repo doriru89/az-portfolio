@@ -5,7 +5,7 @@
   --ivory:rgba(245,243,239,.86);
   --a1:#e4202e; --a2:#f47920; --a3:#ffb000; --a4:#4caf50; --a5:#2196f3;
   --stripe:linear-gradient(90deg,var(--a1) 0 20%,var(--a2) 20% 40%,var(--a3) 40% 60%,var(--a4) 60% 80%,var(--a5) 80% 100%);
-  --dock:148px; --dock-left:22px; --dock-top:12px;
+  --dock:126px; --dock-left:22px; --dock-top:14px;   /* 2026-11-06 Austin: docked head 15% smaller (was 148px) */
 }
 * { box-sizing:border-box; margin:0; padding:0; }
 html, body { background:var(--peach); color:var(--ink); font-family:'Space Grotesk',system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
@@ -50,22 +50,6 @@ body.nav-on #nav-root { opacity:1; transform:none; }   /* openings call ctx.show
 body.docked #bear-home { pointer-events:auto; cursor:pointer; }
 #bear-home:focus-visible { outline:2px solid var(--a5); outline-offset:4px; }
 .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
-/* docked calling card: name + one-click contact beside the porthole (desktop); the nav's Email link covers phones */
-#bear-card { position:fixed; z-index:9; left:calc(var(--dock-left) + var(--dock) + 18px); top:calc(var(--dock-top) + var(--dock) / 2);
-  transform:translate(-10px,-50%); display:flex; flex-direction:column; gap:7px; padding:10px 14px 11px; border-radius:12px;
-  background:var(--ivory); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); opacity:0; pointer-events:none;
-  box-shadow:0 0 0 1.5px rgba(212,160,66,.4), 0 0 0 4px rgba(245,243,239,.7), 0 0 0 5.5px rgba(212,160,66,.2), 0 4px 18px rgba(90,60,20,.12);
-  transition:opacity .4s ease, transform .5s cubic-bezier(.2,.8,.2,1); }
-body.docked #bear-card { opacity:1; transform:translate(0,-50%); pointer-events:auto; transition-delay:.75s; }
-.bear-card__name { font-weight:800; font-size:1.05rem; letter-spacing:-.01em; color:var(--ink); line-height:1; }
-.bear-card__links { display:flex; gap:12px; }
-.bear-card__links a { position:relative; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
-  color:var(--gold-deep); text-decoration:none; padding:2px 0 4px; transition:color .2s; }
-.bear-card__links a::after { content:''; position:absolute; left:0; right:0; bottom:0; height:2px; border-radius:1px; background:var(--stripe); transform:scaleX(0); transform-origin:left; transition:transform .3s cubic-bezier(.2,.8,.2,1); }
-.bear-card__links a:hover, .bear-card__links a:focus-visible { color:var(--ink); outline:none; }
-.bear-card__links a:hover::after, .bear-card__links a:focus-visible::after { transform:scaleX(1); }
-@media (max-width:1100px) { #bear-card { display:none; } }   /* under ~1100px it would sit on the box; the nav's Email link is one click away anyway */
-
 /* ── hero ── */
 #hero { position:relative; z-index:5; height:100vh; height:100svh; display:flex; flex-direction:column; align-items:center; justify-content:center;
   text-align:center; opacity:0; pointer-events:none; padding-bottom:22vh; }
@@ -88,6 +72,7 @@ body.docked #bear-card { opacity:1; transform:translate(0,-50%); pointer-events:
 .contact__inner { max-width:1040px; margin:0 auto; padding:88px 24px 40px; display:grid; gap:40px; grid-template-columns:1.3fr 1fr; align-items:end; }
 .contact__kicker { font-family:'Press Start 2P',monospace; font-size:10px; letter-spacing:.08em; color:var(--a3); }
 .contact__title { margin-top:16px; font-weight:800; font-size:clamp(2.2rem,5.5vw,4rem); line-height:.95; letter-spacing:-.03em; }
+.contact__lead { margin-top:18px; max-width:30ch; font-size:clamp(1rem,1.6vw,1.2rem); line-height:1.4; color:rgba(255,241,235,.72); }   /* 2026-11-06 Austin: title stays universal, the human-spark line sits under it */
 .contact__email { display:inline-block; margin-top:22px; font-size:clamp(1.05rem,2vw,1.4rem); font-weight:500; color:var(--peach); text-decoration:none;
   border-bottom:2px solid var(--gold); padding-bottom:3px; transition:color .2s, border-color .2s; }
 .contact__email:hover { color:var(--a3); border-color:var(--a3); }
@@ -139,7 +124,7 @@ body.docked #bear-card { opacity:1; transform:translate(0,-50%); pointer-events:
 
 /* ── mobile ── */
 @media (max-width:640px) {
-  :root { --dock:88px; --dock-left:10px; --dock-top:9px; }
+  :root { --dock:75px; --dock-left:10px; --dock-top:10px; }
   #nav-root { padding:12px 12px; }
   body.docked #nav-root { padding-left:84px; }
   .top-nav__inner { min-width:0; gap:1rem; padding:.6rem 1rem; }

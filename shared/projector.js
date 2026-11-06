@@ -14,6 +14,7 @@
 
 const ATARI = ['#e4202e', '#f47920', '#ffb000', '#4caf50', '#2196f3'];
 const INK = '#1e0f3c', GOLD = '#d4a042', PEACH = '#FFF1EB', HOUSE = '#1a0f22';
+const CARD_ASPECT = 0.79;   // card height / width — the box window is 14.4 × 11.7, a 4:3 card left dark slack above and below
 const FLIP_MS = 170, MIN_GAP = 100;          // flip length, shortest gap between flips
 const CARD_VH = 42;                           // scroll distance per card, in vh
 const ASSETS = {                              // swap for data: URLs when inlining
@@ -408,8 +409,8 @@ export function mountProjector(container, projects, { THREE } = {}) {
     const BW = 15.4, BH = 13.4 + Y0, BD = 11;
     const WW = 14.4, WH = 11.7, WY = 6.85 + Y0;
     const CAV_W = 15.3, CAV_H = 13.0, CAV_Y = 6.7 + Y0;
-    const CW = 13.9, CH = CW * 0.75, HALF = CH / 2;   // card fits inside the window (text must not be clipped)
-    const PLATE_BACK = -0.5, AXLE_Z = -(HALF + 0.85), AXLE_Y = 6.63 + Y0;
+    const CW = 14.0, CH = CW * CARD_ASPECT, HALF = CH / 2;   // card fits inside the window (text must not be clipped); 2026-11-06: taller card (0.79, was 4:3) fills the window
+    const PLATE_BACK = -0.5, AXLE_Z = -(HALF + 0.85), AXLE_Y = 6.73 + Y0;
 
     const rig = new THREE.Group(); scene.add(rig);
     const box = new THREE.Group(); box.position.set(0, -BH / 2, BD / 2); rig.add(box);
@@ -540,7 +541,7 @@ export function mountProjector(container, projects, { THREE } = {}) {
 
     // ---------- textures ----------
     const mobile = Math.min(innerWidth, innerHeight) < 700;
-    const TW = mobile ? 1024 : 1440, TH = TW * 3 / 4;
+    const TW = mobile ? 1024 : 1440, TH = Math.round(TW * CARD_ASPECT);
     const imgCache = new Map();
     const loadImg = src => {
       if (!src) return Promise.resolve(null);
@@ -646,7 +647,7 @@ export function mountProjector(container, projects, { THREE } = {}) {
       const tan = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2);
       portrait = vw < 700 || vw < vh * 1.05;
       // 2026-11-05 Austin: "the display inside could be bigger" — the box now fills ~88% of the view height (was 80%)
-      const byH = BH / ((portrait ? 0.88 : 0.88) * 2 * tan);
+      const byH = BH / ((portrait ? 0.9 : 0.92) * 2 * tan);   // 2026-11-06: 92% (was 88%)
       const byW = (BW + 0.6 + (portrait ? 3.4 : 4)) / ((portrait ? 0.94 : 0.9) * 2 * tan * camera.aspect);
       const df = Math.max(byH, byW);
       poses.air = { pos: new THREE.Vector3(portrait ? -1.2 : -1.0, 0.3, -(df + BD / 2)), rot: new THREE.Euler(0.03, -0.087, 0), d: df + BD / 2 };   // 2026-11-05 Austin: near front-on, a 5° turn (crank side forward) so it reads as a thing in a room, not a flat picture

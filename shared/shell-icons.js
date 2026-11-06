@@ -27,7 +27,7 @@ export const ICONS = {
 };
 // project id -> icon + where it lives (fractions of the viewport; kept in the side margins, clear of the hero copy)
 // 2026-11-06 Austin: CareCost ↔ Asteria and Lenovo ↔ Artopath swapped (CareCost + Lenovo up top, Asteria + Artopath by the bear)
-const HOT = { carecost: ['cross', .08, .24], aios: ['terminal', .1, .74], lenovo: ['laptop', .9, .22], asteria: ['terminal', .1, .74], artopath: ['graph', .9, .68] };
+const HOT = { carecost: ['cross', .08, .24], aios: ['terminal', .1, .68], lenovo: ['laptop', .9, .22], asteria: ['terminal', .1, .68], artopath: ['graph', .9, .64] };
 
 // 2026-11-05 Austin: four more, more visible, pixel style. Placeholder slots for projects he will add later.
 // 10x10 sprites: '#' = colour A, '+' = colour B, '.' = empty. Rendered as crisp SVG rects.

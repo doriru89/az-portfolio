@@ -19,7 +19,7 @@ const easeInOut = x => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
 const easeOut = x => 1 - Math.pow(1 - x, 3);
 const lerp = (a, b, t) => a + (b - a) * t;
 
-const HERO_SCALE = 1.2;
+const HERO_SCALE = 1.3;    // 2026-11-06 Austin: hero head +8% (was 1.2)
 
 export function createBearDock({ THREE, camera, pivot, rig, gsap, reducedMotion, canvas, seat, heroText }) {
   // camera poses (world units; head centred at y=0, ears ~1.55, riders above)

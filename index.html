@@ -31,11 +31,6 @@
     <span class="cue-arrows cue-arrows--bot" aria-hidden="true"><svg viewBox="0 0 11 6" shape-rendering="crispEdges"><path d="M0 0h1v1H0zM10 0h1v1h-1zM1 1h1v1H1zM9 1h1v1H9zM2 2h1v1H2zM8 2h1v1H8zM3 3h1v1H3zM7 3h1v1H7zM4 4h1v1H4zM6 4h1v1H6zM5 5h1v1H5z"/></svg></span>
   </button>
   <a id="bear-home" href="#top" aria-label="Back to top"><span class="sr-only">Back to top</span></a>
-  <!-- 2026-11-05 Austin: once the bear is in the porthole, the name + one-click contact sit beside it (HR must always see how to reach me) -->
-  <div id="bear-card" aria-hidden="true">
-    <span class="bear-card__name" id="card-name"></span>
-    <span class="bear-card__links"><a id="card-email" href="#">Email</a><a id="card-linkedin" href="#" target="_blank" rel="noopener">LinkedIn</a></span>
-  </div>
 
   <nav id="nav-root" aria-label="Primary">
     <div class="top-nav__inner">
@@ -65,7 +60,8 @@
       <div>
         <!-- 2026-11-05 Austin: this footer is for recruiters — plain words, and the three links as real buttons -->
         <p class="contact__kicker">GET IN TOUCH</p>
-        <h2 class="contact__title">Let's talk about<br>the next thing you ship.</h2>
+        <h2 class="contact__title">Let's build<br>something together.</h2>
+        <p class="contact__lead">AI in the work, people in the pilot seat.</p>
         <a class="contact__email" id="contact-email" href="#"></a>
       </div>
       <ul class="contact__links" id="contact-links" aria-label="Resume and profiles"></ul>
@@ -98,9 +94,6 @@ const resume = PROFILE.links.find(l => /resume|cv/i.test(l.label));
 if (resume) $('nav-resume').href = resume.href; else $('nav-resume').remove();
 $('contact-email').textContent = PROFILE.email; $('contact-email').href = `mailto:${PROFILE.email}`;
 $('nav-email').href = `mailto:${PROFILE.email}`;          // one click to write, from anywhere on the page
-$('card-name').textContent = PROFILE.name; $('card-email').href = `mailto:${PROFILE.email}`;
-const linkedin = PROFILE.links.find(l => /linkedin/i.test(l.label));
-if (linkedin) $('card-linkedin').href = linkedin.href; else $('card-linkedin').remove();
 $('contact-links').innerHTML = PROFILE.links.map(l => `<li><a href="${l.href}" target="_blank" rel="noopener" class="${/resume|cv/i.test(l.label) ? 'is-primary' : ''}">${/resume|cv/i.test(l.label) ? '▶ ' : ''}${l.label}</a></li>`).join('');
 $('contact-name').textContent = `© ${new Date().getFullYear()} ${PROFILE.name}`;
 
@@ -199,10 +192,10 @@ window.__openingDone = true;  // for automated screenshots
 let targetedAt = -1e9;   // an icon click owns the scroll for a moment; autoAdvance must not override it
 ScrollTrigger.create({
   trigger: hero.root, start: 'top+=2 top',
-  onEnter: () => { dock.dock(); document.body.classList.add('docked'); $('bear-card').setAttribute('aria-hidden', 'false'); autoAdvance(); },
-  onLeaveBack: () => { dock.undock(); document.body.classList.remove('docked'); $('bear-card').setAttribute('aria-hidden', 'true'); },
+  onEnter: () => { dock.dock(); document.body.classList.add('docked'); autoAdvance(); },
+  onLeaveBack: () => { dock.undock(); document.body.classList.remove('docked'); },
 });
-if (scrollY > 2) { dock.dock(); document.body.classList.add('docked'); $('bear-card').setAttribute('aria-hidden', 'false'); }
+if (scrollY > 2) { dock.dock(); document.body.classList.add('docked'); }
 // 2026-11-05 Austin: no empty gap between the bear flying up and the flip box — the first scroll carries the
 // reader straight to the start of the projector track (box arrives while the bear is still in flight).
 function autoAdvance() {
