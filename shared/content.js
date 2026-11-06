@@ -20,14 +20,15 @@ export const PROFILE = {
 };
 
 export const PROJECTS = [
+  // 2026-11-06 Austin: internal platform — figures deliberately blurred on the public site (exact numbers stay in the resume)
   { id: 'lenovo', name: 'Lenovo Seller Platform', kicker: 'Enterprise · internal B2B sales platform',
-    title: 'One console for 1,200 B2B sellers, replacing a seven-tool hop',
-    impact: '$2.5M roadmap funded · 500+ monthly active sellers · 85% rated the GenAI pilot useful',
-    description: "Product lead (no direct reports) for Lenovo's one-stop seller platform. Turned seller pain points into a 3-year roadmap, won $2.5M through four months of VP and director workshops, and led an 8-person Design/SWE/IT squad to ship it.",
+    title: 'One console for over a thousand B2B sellers, replacing a seven-tool hop',
+    impact: 'Seven-figure roadmap funded · hundreds of sellers active monthly · GenAI pilot rated useful by most',
+    description: "Product lead (no direct reports) for Lenovo's one-stop seller platform. Turned seller pain points into a multi-year roadmap, won seven-figure funding through months of VP and director workshops, and led a cross-functional Design/SWE/IT squad to ship it.",
     details: [
-      'Built a 100+ seller council that tested every release; weekly users went 70 → 200 in two months',
-      'Started a GenAI sales assistant for purchase data and collateral; VP approved global rollout after a 3-week pilot',
-      'Earlier: rescued a delayed ML prospecting tool; sellers reported 6 deals worth $10M in a quarter (Dream Team Award)',
+      'Built a seller council of 100+ that tested every release; weekly users nearly tripled in two months',
+      'Started a GenAI sales assistant for purchase data and collateral; a VP approved global rollout after a short pilot',
+      'Earlier: rescued a delayed ML prospecting tool; sellers credited it with eight-figure deal flow in its first quarter (Dream Team Award)',
     ],
     tech: ['Microsoft Dynamics', 'Qlik', 'GenAI · text-to-SQL', 'Jira'],
     year: '2022–2025', role: 'Product lead (official title: DT Business Process Design Sr. Specialist)',
