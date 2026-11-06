@@ -8,14 +8,24 @@ Tagline: **"I put AI into the work people already do."** The enterprise evidence
 
 ## Cards, in order
 
-| Card | Kind of evidence | Image | Link |
-|---|---|---|---|
-| Lenovo Seller Platform | employer work, internal platform | schematic (`src/lenovo.html`) | none, on purpose |
-| CareCost | hackathon win, public repo | real screenshot (no patient or doctor names) | GitHub repo |
-| Asteria | personal agent workbench | schematic (`src/asteria.html`) | public shell + demo at doriru89.github.io/asteria |
-| WiseShopper | open-source Claude Code skill (`/shop`) | screenshot of the public demo | GitHub repo |
-| Ride Compare | Android utility, public repo | schematic (`src/ridecompare.html`) | GitHub repo |
-| Artopath | personal media library | real screenshot | none (repo private) |
+| Card | Kind of evidence | Image | Link | Upstream repo · licence |
+|---|---|---|---|---|
+| Lenovo Seller Platform | employer work, internal platform | schematic (`src/lenovo.html`) | none, on purpose | — |
+| CareCost | hackathon win, public repo | real screenshot (no patient or doctor names) | GitHub repo | `doriru89/Carecost` · no licence file |
+| Asteria | personal agent workbench (harness on Claude Code) | schematic (`src/asteria.html`) | public shell + demo at doriru89.github.io/asteria | `doriru89/asteria` · MIT |
+| Chronicle | Asteria's visual layer: every AI coding session as a quest; its own card on purpose (Austin, 2026-11-06) | screenshot of the public page (fictional data) | doriru89.github.io/asteria/chronicle.html | `doriru89/asteria` · MIT |
+| WiseShopper | open-source Claude Code skill (`/shop`) | screenshot of the public demo | GitHub repo (no Pages yet, so the demo HTML is not viewable live) | `doriru89/shop-skill` · MIT |
+| Ride Compare | Android utility, public repo | schematic (`src/ridecompare.html`) | GitHub repo | `doriru89/ride-compare` · MIT |
+| Artopath | personal media library | real screenshot | none (repo private) | private |
+
+## When an upstream repo changes
+
+The cards are copies, not views: nothing updates them. After a push to `asteria`, `shop-skill` or `ride-compare`, check the card's
+
+- **framing words** against the repo's README first paragraph (Asteria drifted from "operating system" to "harness + Chronicle" within one evening);
+- **screenshot** if the demo page changed (`tools/render-schematic.py` for drawings; a 1600×1000 headless screenshot for live pages);
+- **counts** read from the repo, never from memory;
+- **demoUrl** still answers 200 (`tools/verify.py` checks this).
 
 ## Rules
 

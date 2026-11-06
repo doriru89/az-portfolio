@@ -36,7 +36,8 @@ One scroll, three scenes:
 - Bear hero with riders; no bear eyes; symmetric nose; riders still once docked. Head size: `HERO_SCALE 1.3`; porthole `--dock: 126px` (phone 75px).
 - Hero camera `(0, 2.9, 8.5)` looking at `(0, 1.9, 0)`: further back for a rounder dome; the head's on-screen width is fixed by `relayout()`, so camera distance does not change size.
 - Scroll plate centred, `bottom: 6vh`, pixel chevrons; touch devices show "SWIPE UP" with chevrons flipped.
-- Project icons always carry their name in an Undertale-style box; positions: CareCost top-left, Lenovo top-right, WiseShopper top-centre (phone: lower band centre), Asteria lower-left, Artopath lower-right, Ride Compare right-middle (phone: top band).
+- Project icons always carry their name in an Undertale-style box; positions: CareCost top-left, Chronicle left-middle (desktop only: on phones the six slots beside the name are full, phone x `false` in `HOT`), Lenovo top-right, WiseShopper top-centre (phone: lower band centre), Asteria lower-left, Artopath lower-right, Ride Compare right-middle (phone: top band).
+- Chronicle is its own card right after Asteria (2026-11-06): it is the visual for AI coding sessions and Austin wants it told apart from the workbench. Asteria's card points to it.
 - **No calling card** next to the porthole (name + email was removed 2026-11-06); contact lives in the nav's Email link and the footer.
 - Profile Box: 5° turn, crank side forward; box fills 88 % of the view height on ≥ 835 px views, easing to 78 % on short views so the crank hint clears the rail; card is 0.78 tall (was 4:3) to fill the window; "Project", never "Reel"; leader reads "<n> PROJECTS · <m> FRAMES"; no "PLAYER 2" wording anywhere (this is for HR).
 - Footer: title "Let's build something together.", lead "AI in the work, people in the pilot seat." (his own phrasing of "keep the human in the pilot seat"; the words "human spark" are jargon to HR and are not used).

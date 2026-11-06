@@ -51,16 +51,31 @@ export const PROJECTS = [
   { id: 'asteria', name: 'Asteria', kicker: 'Personal AI workbench',
     title: 'An operating system where agents do the volume and I sign the decisions',
     impact: '135 skills · 37 subagent roles · 2,100+ commits since March 2026',
-    description: 'My own agent workbench on Claude Code, designed around the questions companies now face with agents: what an agent may do alone, what needs human sign-off, and how mistakes become checks.',
+    description: 'My own agent workbench on Claude Code: a thin harness (hooks, skills, a browser) over one git folder of plain files, designed around the questions companies now face with agents: what an agent may do alone, what needs human sign-off, and how mistakes become checks.',
     details: [
       'Tiered memory: persistent writes are proposals a human approves',
-      'Hybrid retrieval (BM25 + vectors) graded against a 65-query golden set',
       'Every repeated failure becomes an errata entry and a write-time check (70+ so far)',
+      'Draws one thing for itself: the Chronicle, where every session is a quest (next card)',
     ],
     tech: ['Claude Code', 'Python', 'MCP', 'SQLite FTS5 + vectors'],
     year: '2026', role: 'Designer & sole builder',
     image: 'assets/screens/asteria.jpg', imageNote: 'Schematic of the loop; counts read from the repository.',
-    demoUrl: 'https://doriru89.github.io/asteria/demo.html' },   // 2026-11-06: public shell repo github.com/doriru89/asteria
+    demoUrl: 'https://doriru89.github.io/asteria/demo.html' },   // 2026-11-06: public shell repo github.com/doriru89/asteria; reframed as harness + Chronicle the same night the Chronicle page shipped
+
+  // 2026-11-06 Austin: the Chronicle is its own card, set apart from Asteria, because it is the visual for AI coding sessions. Copy from asteria/README.md and chronicle.html (fictional data on the public page).
+  { id: 'chronicle', name: 'Chronicle', kicker: "Asteria's visual layer · every AI coding session as a quest",
+    title: 'A scroll where every coding session is a quest, and side quests branch off and merge back',
+    impact: 'One star per session, sized by prompts · questlines as lanes · influence edges between sessions · growth replay',
+    description: 'The one thing Asteria draws for itself. Each session (Claude Code, Codex) leaves a card and a ledger line; the Chronicle reads only those files and draws them as a scroll: main quests as lanes, merges as rings, four kinds of influence between sessions, and a Quest Log that keeps what happened apart from a rolling-wave future.',
+    details: [
+      'Any document leads back to the conversation that made it: cards, briefs and the ledger are plain files appended by hooks',
+      'Side quests have a lifecycle (proposed → live → merged / closed) and carry a context capsule into the new session',
+      'One HTML file, no build step; the public page runs on fictional data',
+    ],
+    tech: ['Vanilla JS', 'SVG + canvas', 'JSONL ledger', 'Claude Code hooks'],
+    year: '2026', role: 'Designer & sole builder',
+    image: 'assets/screens/chronicle.jpg', imageNote: 'Screenshot of the public page (fictional data).',
+    demoUrl: 'https://doriru89.github.io/asteria/chronicle.html' },
 
   // 2026-11-06: fifth card — the purchase-decision skill, public at github.com/doriru89/shop-skill (Austin named it WiseShopper; the command stays /shop)
   { id: 'shop', name: 'WiseShopper', kicker: 'Open-source Claude Code skill · maps the whole market before it picks',

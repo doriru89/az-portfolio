@@ -28,7 +28,7 @@ export const ICONS = {
 };
 // project id -> icon + where it lives (fractions of the viewport; kept in the side margins, clear of the hero copy)
 // 2026-11-06 Austin: CareCost ↔ Asteria and Lenovo ↔ Artopath swapped (CareCost + Lenovo up top, Asteria + Artopath by the bear)
-const HOT = { carecost: ['cross', .08, .24], aios: ['terminal', .1, .68], lenovo: ['laptop', .9, .22], asteria: ['terminal', .1, .68], artopath: ['graph', .9, .64], shop: ['compass', .5, .14, .5, .56], ridecompare: ['fold', .9, .43, .5, .15] };   // ridecompare (2026-11-06): desktop right margin between Lenovo and Artopath (the pixel heart's old slot); phone: top band under the nav, centred   // shop: centred between the nav and the name; phone (4th/5th = x,y): the lower band, between Asteria and Artopath
+const HOT = { carecost: ['cross', .08, .24], aios: ['terminal', .1, .68], lenovo: ['laptop', .9, .22], asteria: ['terminal', .1, .68], artopath: ['graph', .9, .64], shop: ['compass', .5, .14, .5, .56], ridecompare: ['fold', .9, .43, .5, .15], chronicle: ['rocket', .08, .42, false] };   // chronicle (2026-11-06): desktop left margin between CareCost and the invader sprite (.52); on phones every slot beside the name is taken, so no hero icon there   // ridecompare (2026-11-06): desktop right margin between Lenovo and Artopath (the pixel heart's old slot); phone: top band under the nav, centred   // shop: centred between the nav and the name; phone (4th/5th = x,y): the lower band, between Asteria and Artopath
 
 // 2026-11-05 Austin: four more, more visible, pixel style. Placeholder slots for projects he will add later.
 // 10x10 sprites: '#' = colour A, '+' = colour B, '.' = empty. Rendered as crisp SVG rects.
@@ -50,7 +50,7 @@ export function mountIconField(el, { projects = [], colors = [], onOpen = () => 
   const layer = document.createElement('div');
   layer.className = 'icon-field__layer';
   el.appendChild(layer);
-  const names = Object.keys(ICONS).filter(n => !['cross', 'laptop', 'terminal', 'graph', 'fold'].includes(n));
+  const names = Object.keys(ICONS).filter(n => !['cross', 'laptop', 'terminal', 'graph', 'fold', 'compass', 'rocket'].includes(n));
   const svg = (n, sw = 1.5) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]}</svg>`;
   let hots = [];
 
@@ -69,6 +69,7 @@ export function mountIconField(el, { projects = [], colors = [], onOpen = () => 
     hots = [];
     projects.forEach((p, j) => {
       const h = HOT[p.id]; if (!h) return;
+      if (mobile && h[3] === false) return;   // phone x `false`: no hero icon on phones (the card is still in the box); seven labels do not fit beside the name (2026-11-06)
       const b = document.createElement('button');
       const s = mobile ? 30 : 40;
       const hx = mobile && h[3] != null ? h[3] : h[1];

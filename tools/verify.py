@@ -7,19 +7,40 @@ Writes tools/out/<size>-<view>.png. Exit code 1 on any page error or a failed ch
 """
 import asyncio
 import os
+import re
 import sys
+import urllib.request
 
 from playwright.async_api import async_playwright
 
 URL = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:8777/"
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 SIZES = [(1440, 900, 2), (1280, 720, 1), (390, 844, 3)]
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUT = os.path.join(ROOT, "tools", "out")
+
+
+def check_links() -> bool:
+    """Every demoUrl in shared/content.js must answer 2xx/3xx. The cards are copies of their repos, not views;
+    this is the one drift a script can catch (a demo whose host was never enabled, a renamed repo)."""
+    src = open(os.path.join(ROOT, "shared", "content.js"), encoding="utf-8").read()
+    urls = re.findall(r"demoUrl:\s*'([^']+)'", src)
+    ok = True
+    for u in urls:
+        try:
+            req = urllib.request.Request(u, method="HEAD", headers={"User-Agent": "az-portfolio-verify"})
+            code = urllib.request.urlopen(req, timeout=15).status
+        except Exception as e:  # noqa: BLE001
+            code = getattr(e, "code", None) or str(e)
+        good = isinstance(code, int) and code < 400
+        ok &= good
+        print(f"link {code!s:>4}  {u}")
+    return ok
 
 
 async def main() -> int:
     os.makedirs(OUT, exist_ok=True)
-    failed = False
+    failed = not check_links()
     async with async_playwright() as p:
         browser = await p.chromium.launch(
             executable_path=CHROME, args=["--use-angle=metal", "--enable-gpu", "--ignore-gpu-blocklist"]
