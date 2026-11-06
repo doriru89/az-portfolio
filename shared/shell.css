@@ -88,10 +88,14 @@ body.docked #bear-card { opacity:1; transform:translate(0,-50%); pointer-events:
 .contact__email { display:inline-block; margin-top:22px; font-size:clamp(1.05rem,2vw,1.4rem); font-weight:500; color:var(--peach); text-decoration:none;
   border-bottom:2px solid var(--gold); padding-bottom:3px; transition:color .2s, border-color .2s; }
 .contact__email:hover { color:var(--a3); border-color:var(--a3); }
-.contact__links { list-style:none; display:flex; flex-direction:column; gap:12px; justify-self:end; text-align:right; }
-.contact__links a { color:var(--peach); text-decoration:none; font-size:.95rem; letter-spacing:.04em; opacity:.85; transition:opacity .2s, color .2s; }
-.contact__links a:hover { opacity:1; color:var(--a3); }
-.contact__links a::after { content:' ↗'; font-size:.8em; opacity:.6; }
+/* 2026-11-05 Austin: Resume / LinkedIn / GitHub were easy to miss — now pixel-bordered buttons, Resume filled gold */
+.contact__links { list-style:none; display:flex; flex-direction:column; gap:14px; justify-self:end; align-items:flex-end; }
+.contact__links a { display:inline-block; min-width:200px; text-align:center; padding:14px 22px; color:var(--peach); text-decoration:none;
+  font-family:'Press Start 2P',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  border:2px solid var(--gold); box-shadow:4px 4px 0 var(--gold); transition:transform .15s, box-shadow .15s, background .2s, color .2s; }
+.contact__links a:hover { transform:translate(2px,2px); box-shadow:2px 2px 0 var(--gold); background:rgba(212,160,66,.12); }
+.contact__links a.is-primary { background:var(--gold); color:var(--ink); border-color:var(--gold); box-shadow:4px 4px 0 var(--peach); }
+.contact__links a.is-primary:hover { background:var(--a3); border-color:var(--a3); box-shadow:2px 2px 0 var(--peach); }
 .contact__base { max-width:1040px; margin:0 auto; padding:20px 24px 28px; display:flex; justify-content:space-between; gap:16px;
   border-top:1px solid rgba(255,241,235,.12); font-family:'JetBrains Mono',monospace; font-size:11px; opacity:.6; }
 
@@ -138,7 +142,8 @@ body.docked #bear-card { opacity:1; transform:translate(0,-50%); pointer-events:
   #hero { padding-bottom:18vh; }
   body.docked .top-nav__logo { display:none; }
   .contact__inner { grid-template-columns:1fr; padding-top:64px; }
-  .contact__links { justify-self:start; text-align:left; flex-direction:row; flex-wrap:wrap; gap:18px; }
+  .contact__links { justify-self:stretch; align-items:stretch; gap:14px; }
+  .contact__links a { min-width:0; display:block; }
   .contact__base { flex-direction:column; }
 }
 @media (max-width:360px) { .top-nav__logo { display:none; } }
@@ -148,14 +153,14 @@ body.docked #bear-card { opacity:1; transform:translate(0,-50%); pointer-events:
 }
 
 /* ── scroll cue — 2026-11-05 Austin: on theme = an arcade "press start" plate: ink block, pixel border, pixel chevrons stepping down ── */
-#scroll-cue { position:fixed; z-index:30; left:50%; bottom:max(22px, env(safe-area-inset-bottom)); transform:translate(-50%, 12px);
+#scroll-cue { position:fixed; z-index:30; left:50%; bottom:max(14px, env(safe-area-inset-bottom)); transform:translate(-50%, 12px);
   display:flex; flex-direction:column; align-items:center; gap:9px; padding:11px 18px 12px; border:0; border-radius:0; cursor:pointer;
   background:var(--ink); color:var(--peach); image-rendering:pixelated;
   box-shadow:0 0 0 3px var(--peach), 0 0 0 6px var(--ink), 7px 7px 0 6px rgba(30,15,60,.22); opacity:0; pointer-events:none;
   transition:opacity .45s ease, transform .45s cubic-bezier(.2,.8,.2,1); font-family:'Press Start 2P',monospace; font-size:11px; letter-spacing:.1em; }
 #scroll-cue::after { content:''; position:absolute; left:0; right:0; bottom:-12px; height:3px; background:var(--stripe); }
 body.opened:not(.docked) #scroll-cue { opacity:1; pointer-events:auto; transform:translate(-50%, 0); transition-delay:.6s; }
-@media (min-width:641px) { #scroll-cue { left:calc(50% + 250px); } }   /* desktop: beside the riders, not on the rabbit's face (bear sits low now) */
+/* 2026-11-05 Austin: plate stays centred, just lower; the bear sits a little higher so the riders clear it */
 #scroll-cue:hover { background:var(--gold-deep); }
 .cue-txt { animation:cueBlink 1.6s steps(1) infinite; }
 @keyframes cueBlink { 0%, 70% { opacity:1; } 71%, 100% { opacity:.35; } }

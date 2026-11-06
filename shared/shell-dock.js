@@ -66,7 +66,7 @@ export function createBearDock({ THREE, camera, pivot, rig, gsap, reducedMotion,
     const gap = Math.max(18, L.H * (mobile ? 0.035 : 0.045));
     // cap how much bear shows (portrait screens would otherwise reveal the whole face)
     // 2026-11-05 Austin: bear lower — the ears clearly, plus a sliver of dome (and the riders on it); less drop on phones
-    const topY = Math.min(Math.max(tagBottom + gap, L.H * (mobile ? 0.67 : 0.58)) + 1.6 * tl.offsetHeight + L.H * (mobile ? 0.05 : 0.13), L.H * 0.95);
+    const topY = Math.min(Math.max(tagBottom + gap, L.H * (mobile ? 0.67 : 0.58)) + 1.6 * tl.offsetHeight + L.H * (mobile ? 0.05 : 0.05), L.H * 0.95);
     // 2026-11-05: the head's on-screen WIDTH is fixed (fraction of the viewport), whatever the camera distance —
     // so the camera can sit further back (less perspective, rounder dome) without the bear shrinking
     const maxW = L.W * (mobile ? 0.96 : 0.62);           // desktop: keep the head a centred mound, not a wall

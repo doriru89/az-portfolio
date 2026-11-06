@@ -60,11 +60,12 @@
     <div class="contact__stripes" aria-hidden="true"><i style="background:var(--a1)"></i><i style="background:var(--a2)"></i><i style="background:var(--a3)"></i><i style="background:var(--a4)"></i><i style="background:var(--a5)"></i></div>
     <div class="contact__inner">
       <div>
-        <p class="contact__kicker">PLAYER 2 — PRESS START</p>
-        <h2 class="contact__title">Let's build<br>something odd.</h2>
+        <!-- 2026-11-05 Austin: this footer is for recruiters — plain words, and the three links as real buttons -->
+        <p class="contact__kicker">GET IN TOUCH</p>
+        <h2 class="contact__title">Let's talk about<br>the next thing you ship.</h2>
         <a class="contact__email" id="contact-email" href="#"></a>
       </div>
-      <ul class="contact__links" id="contact-links"></ul>
+      <ul class="contact__links" id="contact-links" aria-label="Resume and profiles"></ul>
     </div>
     <div class="contact__base"><span id="contact-name"></span><span>Made with a bear, two cats and a rabbit.</span></div>
   </footer>
@@ -97,7 +98,7 @@ $('nav-email').href = `mailto:${PROFILE.email}`;          // one click to write,
 $('card-name').textContent = PROFILE.name; $('card-email').href = `mailto:${PROFILE.email}`;
 const linkedin = PROFILE.links.find(l => /linkedin/i.test(l.label));
 if (linkedin) $('card-linkedin').href = linkedin.href; else $('card-linkedin').remove();
-$('contact-links').innerHTML = PROFILE.links.map(l => `<li><a href="${l.href}" target="_blank" rel="noopener">${l.label}</a></li>`).join('');
+$('contact-links').innerHTML = PROFILE.links.map(l => `<li><a href="${l.href}" target="_blank" rel="noopener" class="${/resume|cv/i.test(l.label) ? 'is-primary' : ''}">${/resume|cv/i.test(l.label) ? '▶ ' : ''}${l.label}</a></li>`).join('');
 $('contact-name').textContent = `© ${new Date().getFullYear()} ${PROFILE.name}`;
 
 // ── bear scene ──

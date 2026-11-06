@@ -49,7 +49,7 @@ function buildDeck(projects) {
   return deck;
 }
 const cardLabel = c => c.kind === 'leader' ? 'Leader' : c.kind === 'end' ? 'Fin'
-  : `Reel ${pad2(c.reel)} · ${str(c.p.name)}`;
+  : `Project ${pad2(c.reel)} · ${str(c.p.name)}`;
 
 // ---------- reduced motion / no-WebGL: plain accessible list ----------
 function mountList(container, projects) {
@@ -68,7 +68,7 @@ function mountList(container, projects) {
   </style><div class="pj-list"><h2>Selected work</h2>${arr(projects).map((p, i) => `
     <article class="pj-item" style="--c:${ATARI[i % 5]}">
       ${p.image ? `<img src="${esc(p.image)}" alt="Screenshot of ${esc(p.name)}" loading="lazy">` : '<div></div>'}
-      <div><small>Reel ${pad2(i + 1)} · ${esc(p.kicker)}</small><h3>${esc(p.name)}</h3>
+      <div><small>Project ${pad2(i + 1)} · ${esc(p.kicker)}</small><h3>${esc(p.name)}</h3>
         <p class="t">${esc(p.title)}</p><p>${esc(p.description)}</p>
         ${arr(p.details).length ? `<ul>${arr(p.details).map(d => `<li>${esc(d)}</li>`).join('')}</ul>` : ''}
         ${p.impact ? `<p class="imp">${esc(p.impact)}</p>` : ''}
@@ -152,7 +152,7 @@ function drawLeader(g, W, H, c) {
   g.fillStyle = GOLD; g.font = `400 ${W * 0.018}px ${PIX}`; g.fillText('AUSTIN ZHENG PRESENTS', W / 2, H * 0.33);
   g.fillStyle = PEACH; g.font = `700 ${W * 0.105}px ${SG}`; g.fillText('Selected Work', W / 2, H * 0.535);
   g.fillStyle = 'rgba(255,241,235,0.7)'; g.font = `500 ${W * 0.026}px ${MONO}`;
-  g.fillText(`${c.reels} REELS  ·  ${c.N} FRAMES`, W / 2, H * 0.63);
+  g.fillText(`${c.reels} PROJECTS  ·  ${c.N} FRAMES`, W / 2, H * 0.63);   // 2026-11-05 Austin: say 'projects', HR does not count reels
   // 2026-11-05 Austin: no stripes under the title; the instruction is big, pixel-font, with a pixel chevron — people must know what to do
   g.fillStyle = GOLD; g.font = `400 ${W * 0.026}px ${PIX}`;
   g.fillText('SCROLL TO TURN THE CRANK', W / 2, H * 0.85);
@@ -169,7 +169,7 @@ function drawChapter(g, W, H, c) {
   stripes(g, m, H * 0.075, W * 0.26, H * 0.014, H * 0.009, c.color);
   g.textBaseline = 'alphabetic'; g.textAlign = 'left';
   g.fillStyle = c.color; g.font = `400 ${W * 0.02}px ${PIX}`;
-  g.fillText(`REEL ${pad2(c.reel)}`, m + W * 0.3, H * 0.075 + H * 0.06);
+  g.fillText(`PROJECT ${pad2(c.reel)}`, m + W * 0.3, H * 0.075 + H * 0.06);
   frameMark(g, W, c);
   // name
   const nm = fit(g, str(p.name), 700, SG, W * 0.1, W * 0.06, maxW, 2);
@@ -230,7 +230,7 @@ function drawPage(g, W, H, c, img) {
   let y = gy + gh + W * 0.042;
   g.textAlign = 'left'; g.textBaseline = 'alphabetic';
   g.fillStyle = c.color; g.font = `700 ${W * 0.0165}px ${MONO}`;
-  g.fillText(`REEL ${pad2(c.reel)} · ${str(p.name).toUpperCase()}`, tx, y);
+  g.fillText(`PROJECT ${pad2(c.reel)} · ${str(p.name).toUpperCase()}`, tx, y);
   g.textAlign = 'right'; g.fillStyle = 'rgba(30,15,60,0.45)'; g.font = `500 ${W * 0.0165}px ${MONO}`;
   g.fillText(c.n > 1 ? `SCREEN ${c.k + 1}/${c.n}` : `FR ${pad2(c.i + 1)}/${pad2(c.N)}`, W - tx, y);
   g.textAlign = 'left';
@@ -621,7 +621,7 @@ export function mountProjector(container, projects, { THREE } = {}) {
       const c = deck[j];
       drawStrip(j);
       reelEl.innerHTML = c.kind === 'leader' ? `<b>●</b> Leader` : c.kind === 'end' ? `<b>●</b> End of reel`
-        : `<b style="color:${c.color}">●</b> Reel ${pad2(c.reel)} — ${esc(c.p.name)}`;
+        : `<b style="color:${c.color}">●</b> Project ${pad2(c.reel)} — ${esc(c.p.name)}`;
       frameEl.textContent = `Frame ${pad2(j + 1)} / ${pad2(N)}`;
       const url = c.p && c.p.demoUrl;
       demoEl.style.display = url ? 'inline-block' : 'none';
@@ -629,8 +629,8 @@ export function mountProjector(container, projects, { THREE } = {}) {
       if (url) demoEl.href = url;
       const cap = capEl.children;
       cap[3].innerHTML = c.kind === 'chapter' ? arr(c.p.details).slice(0, 3).map(d => `<li>${esc(d)}</li>`).join('') : '';
-      if (c.kind === 'chapter') { cap[0].textContent = `Reel ${pad2(c.reel)} · ${str(c.p.kicker)}`; cap[0].style.color = c.color; cap[1].textContent = str(c.p.name); cap[2].textContent = str(c.p.impact); }
-      else if (c.kind === 'page') { cap[0].textContent = `Reel ${pad2(c.reel)} · ${str(c.p.name)}`; cap[0].style.color = c.color; cap[1].textContent = str(c.caption || c.p.title); cap[2].textContent = str(c.p.description); }
+      if (c.kind === 'chapter') { cap[0].textContent = `Project ${pad2(c.reel)} · ${str(c.p.kicker)}`; cap[0].style.color = c.color; cap[1].textContent = str(c.p.name); cap[2].textContent = str(c.p.impact); }
+      else if (c.kind === 'page') { cap[0].textContent = `Project ${pad2(c.reel)} · ${str(c.p.name)}`; cap[0].style.color = c.color; cap[1].textContent = str(c.caption || c.p.title); cap[2].textContent = str(c.p.description); }
       else { cap[0].textContent = ''; cap[1].textContent = c.kind === 'leader' ? 'Selected Work' : 'fin.'; cap[2].textContent = c.kind === 'leader' ? 'Scroll to turn the crank.' : 'Thanks for watching.'; }
       srEl.textContent = c.kind === 'page' ? `${cardLabel(c)}. ${str(c.p.title)}. ${str(c.p.description)}`
         : c.kind === 'chapter' ? `${cardLabel(c)}. ${str(c.p.kicker)}. ${str(c.p.impact)}. ${arr(c.p.details).map(str).join('. ')}` : cardLabel(c);
