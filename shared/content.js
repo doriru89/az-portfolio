@@ -59,7 +59,7 @@ export const PROJECTS = [
     tech: ['Claude Code', 'Python', 'MCP', 'SQLite FTS5 + vectors'],
     year: '2026', role: 'Designer & sole builder',
     image: 'assets/screens/asteria.jpg', imageNote: 'Schematic of the loop; counts read from the repository.',
-    demoUrl: null },
+    demoUrl: 'https://doriru89.github.io/asteria/demo.html' },   // 2026-11-06: public shell repo github.com/doriru89/asteria
 
   { id: 'artopath', name: 'Artopath', kicker: 'Personal media library',
     title: 'Every film linked to the people behind it and the places it was made',
