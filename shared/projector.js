@@ -14,7 +14,7 @@
 
 const ATARI = ['#e4202e', '#f47920', '#ffb000', '#4caf50', '#2196f3'];
 const INK = '#1e0f3c', GOLD = '#d4a042', PEACH = '#FFF1EB', HOUSE = '#1a0f22';
-const CARD_ASPECT = 0.79;   // card height / width — the box window is 14.4 × 11.7, a 4:3 card left dark slack above and below
+const CARD_ASPECT = 0.78;   // card height / width — the box window is 14.4 × 11.7, a 4:3 card left dark slack above and below
 const FLIP_MS = 170, MIN_GAP = 100;          // flip length, shortest gap between flips
 const CARD_VH = 42;                           // scroll distance per card, in vh
 const ASSETS = {                              // swap for data: URLs when inlining
@@ -647,7 +647,10 @@ export function mountProjector(container, projects, { THREE } = {}) {
       const tan = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2);
       portrait = vw < 700 || vw < vh * 1.05;
       // 2026-11-05 Austin: "the display inside could be bigger" — the box now fills ~88% of the view height (was 80%)
-      const byH = BH / ((portrait ? 0.9 : 0.92) * 2 * tan);   // 2026-11-06: 92% (was 88%)
+      // 2026-11-06: 88% of a ≥835px view; on shorter views (720p laptops) the box bottom reached the crank hint, so the fill eases
+      // down to 78% there. Tried 92% / 90% for everyone — the hint hit the rail. Size on big screens comes from the taller card.
+      const fill = portrait ? 0.88 : Math.max(0.78, Math.min(0.88, 0.88 * vh / 835));
+      const byH = BH / (fill * 2 * tan);
       const byW = (BW + 0.6 + (portrait ? 3.4 : 4)) / ((portrait ? 0.94 : 0.9) * 2 * tan * camera.aspect);
       const df = Math.max(byH, byW);
       poses.air = { pos: new THREE.Vector3(portrait ? -1.2 : -1.0, 0.3, -(df + BD / 2)), rot: new THREE.Euler(0.03, -0.087, 0), d: df + BD / 2 };   // 2026-11-05 Austin: near front-on, a 5° turn (crank side forward) so it reads as a thing in a room, not a flat picture
