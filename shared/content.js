@@ -61,6 +61,21 @@ export const PROJECTS = [
     image: 'assets/screens/asteria.jpg', imageNote: 'Schematic of the loop; counts read from the repository.',
     demoUrl: 'https://doriru89.github.io/asteria/demo.html' },   // 2026-11-06: public shell repo github.com/doriru89/asteria
 
+  // 2026-11-06: fifth card — the purchase-decision skill, public at github.com/doriru89/shop-skill (Austin named it WiseShopper; the command stays /shop)
+  { id: 'shop', name: 'WiseShopper', kicker: 'Open-source Claude Code skill · maps the whole market before it picks',
+    title: 'A buying assistant that maps the whole market before it forms an opinion',
+    impact: 'Four steps, a human decision between each · every claim carries a source · 14 revisions against real purchases',
+    description: 'A purchase-decision skill for Claude Code. It breaks the frame of the question, censuses the market with counted gates (brands, products, sources), reveals what the buyer actually values through forced tradeoffs, and says what it could not verify. Finds your best product, not the best product.',
+    details: [
+      'Gates are mechanical: brands ≥ 8, products ≥ 20, ≥ 2 independent sources per shortlisted product, ≥ 2 named blind spots',
+      'Evidence and decision never share a turn: the evidence is rendered first, the decision asked next',
+      'Interactive demo replays a full run; flip the "thin census" switch to watch a gate fail and the recommendation downgrade itself',
+    ],
+    tech: ['Claude Code', 'Markdown skills', 'WebSearch + Playwright MCP'],
+    year: '2026', role: 'Designer & sole builder',
+    image: 'assets/screens/shop.jpg', imageNote: 'Screenshot of the public demo.',
+    demoUrl: 'https://github.com/doriru89/shop-skill' },
+
   { id: 'artopath', name: 'Artopath', kicker: 'Personal media library',
     title: 'Every film linked to the people behind it and the places it was made',
     impact: 'Featured in Poets&Quants · Yale Tsai CITY Launchpad',

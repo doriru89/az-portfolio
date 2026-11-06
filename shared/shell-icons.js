@@ -27,7 +27,7 @@ export const ICONS = {
 };
 // project id -> icon + where it lives (fractions of the viewport; kept in the side margins, clear of the hero copy)
 // 2026-11-06 Austin: CareCost ↔ Asteria and Lenovo ↔ Artopath swapped (CareCost + Lenovo up top, Asteria + Artopath by the bear)
-const HOT = { carecost: ['cross', .08, .24], aios: ['terminal', .1, .68], lenovo: ['laptop', .9, .22], asteria: ['terminal', .1, .68], artopath: ['graph', .9, .64] };
+const HOT = { carecost: ['cross', .08, .24], aios: ['terminal', .1, .68], lenovo: ['laptop', .9, .22], asteria: ['terminal', .1, .68], artopath: ['graph', .9, .64], shop: ['compass', .5, .14, .5, .56] };   // shop: centred between the nav and the name; phone (4th/5th = x,y): the lower band, between Asteria and Artopath
 
 // 2026-11-05 Austin: four more, more visible, pixel style. Placeholder slots for projects he will add later.
 // 10x10 sprites: '#' = colour A, '+' = colour B, '.' = empty. Rendered as crisp SVG rects.
@@ -69,11 +69,12 @@ export function mountIconField(el, { projects = [], colors = [], onOpen = () => 
     projects.forEach((p, j) => {
       const h = HOT[p.id]; if (!h) return;
       const b = document.createElement('button');
-      b.className = `ico ico--hot ico--named ${h[1] < 0.5 ? 'ico--l' : 'ico--r'}`; b.type = 'button';   // named: label always on (2026-11-05)
+      b.className = `ico ico--hot ico--named ${h[1] < 0.5 ? 'ico--l' : h[1] > 0.5 ? 'ico--r' : 'ico--c'}`; b.type = 'button';   // named: label always on (2026-11-05)
       b.setAttribute('aria-label', `Open ${p.name}`);
       const s = mobile ? 30 : 40;
-      const hy = mobile ? Math.min(h[2], 0.56) : h[2];   // phone: the bear's ears reach ~0.69H, keep every project icon (and its label) above them
-      Object.assign(b.style, { left: `calc(${h[1] * 100}% - ${s / 2}px)`, top: `${hy * H}px`, width: s + 'px', height: s + 'px', color: colors[j % colors.length] || 'currentColor' });
+      const hx = mobile && h[3] != null ? h[3] : h[1];
+      const hy = mobile ? Math.min(Math.max(h[4] != null ? h[4] : h[2], 0.2), 0.56) : h[2];   // phone: the bear's ears reach ~0.69H, keep every project icon (and its label) above them (and under the nav pill)
+      Object.assign(b.style, { left: `calc(${hx * 100}% - ${s / 2}px)`, top: `${hy * H}px`, width: s + 'px', height: s + 'px', color: colors[j % colors.length] || 'currentColor' });
       b.innerHTML = svg(h[0], 1.8) + `<span class="ico__label">${p.name}</span>`;
       b.addEventListener('click', () => onOpen(p.id));
       layer.appendChild(b); hots.push(b);
