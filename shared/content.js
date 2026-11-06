@@ -77,6 +77,21 @@ export const PROJECTS = [
     image: 'assets/screens/shop.jpg', imageNote: 'Screenshot of the public demo.',
     demoUrl: 'https://github.com/doriru89/shop-skill' },
 
+  // 2026-11-06: sixth card — Ride Compare, public at github.com/doriru89/ride-compare (Android utility Austin built with an AI assistant on his phone; numbers from the repo's README/VALIDATION.md and the LinkedIn draft)
+  { id: 'ridecompare', name: 'Ride Compare', kicker: 'Android utility · built by chatting with an AI on the phone itself',
+    title: 'Pick a destination once; Uber and Lyft open side by side with the same route',
+    impact: 'First working APK after about ten minutes of chat · 76 deterministic checks · no backend, SDK or account',
+    description: 'A small Android app for my foldable. Share a place from Google Maps, keep the current location or choose a pickup, and both ride apps open in split screen with the same coordinates. Prices and booking stay in their apps; this only removes the repeated typing.',
+    details: [
+      'Dependency-light build: Java sources, the Android SDK command-line tools and a 50-line shell script, no Gradle',
+      'The hard parts were the edges: Maps short links that 404 at random, GPS callbacks overwriting a manual pickup, a keyboard that hides the save button on a folding screen',
+      'Ships with a privacy note, a validation log and an honest list of what has not been checked on a device yet',
+    ],
+    tech: ['Java', 'Android 12L+', 'Android intents · split screen', 'Shell'],
+    year: '2026', role: 'Maker (prototype)',
+    image: 'assets/screens/ridecompare.jpg', imageNote: 'Schematic, not a screenshot: prices are shown by the ride apps themselves.',
+    demoUrl: 'https://github.com/doriru89/ride-compare' },
+
   { id: 'artopath', name: 'Artopath', kicker: 'Personal media library',
     title: 'Every film linked to the people behind it and the places it was made',
     impact: 'Featured in Poets&Quants · Yale Tsai CITY Launchpad',

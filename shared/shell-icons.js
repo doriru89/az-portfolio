@@ -23,11 +23,12 @@ export const ICONS = {
   laptop: P('M5 5h14v10H5z') + P('M2.5 18h19l-1.5-3H4z') + P('M10.5 16.5h3'),
   cross: P('M9 3h6v6h6v6h-6v6H9v-6H3V9h6z'),
   coffee: P('M5 9h11v6a5 5 0 01-5 5h-1a5 5 0 01-5-5z') + P('M16 11h1.5a2.5 2.5 0 010 5H16') + P('M8 3.5c0 1.5 1 1.5 1 3M12 3.5c0 1.5 1 1.5 1 3'),
+  fold: P('M4 4h7v16H4z') + P('M13 4h7v16h-7z') + P('M8 12h8M14 9.5l2.5 2.5-2.5 2.5'),
   rocket: P('M12 2.5c3 2.5 4.5 6 4.5 10L14 16h-4l-2.5-3.5c0-4 1.5-7.5 4.5-10z') + '<circle cx="12" cy="9.5" r="1.6"/>' + P('M7.5 12.5L5 15l1 3 3-2M16.5 12.5L19 15l-1 3-3-2M11 19l1 2.5 1-2.5'),
 };
 // project id -> icon + where it lives (fractions of the viewport; kept in the side margins, clear of the hero copy)
 // 2026-11-06 Austin: CareCost ↔ Asteria and Lenovo ↔ Artopath swapped (CareCost + Lenovo up top, Asteria + Artopath by the bear)
-const HOT = { carecost: ['cross', .08, .24], aios: ['terminal', .1, .68], lenovo: ['laptop', .9, .22], asteria: ['terminal', .1, .68], artopath: ['graph', .9, .64], shop: ['compass', .5, .14, .5, .56] };   // shop: centred between the nav and the name; phone (4th/5th = x,y): the lower band, between Asteria and Artopath
+const HOT = { carecost: ['cross', .08, .24], aios: ['terminal', .1, .68], lenovo: ['laptop', .9, .22], asteria: ['terminal', .1, .68], artopath: ['graph', .9, .64], shop: ['compass', .5, .14, .5, .56], ridecompare: ['fold', .9, .43, .5, .15] };   // ridecompare (2026-11-06): desktop right margin between Lenovo and Artopath (the pixel heart's old slot); phone: top band under the nav, centred   // shop: centred between the nav and the name; phone (4th/5th = x,y): the lower band, between Asteria and Artopath
 
 // 2026-11-05 Austin: four more, more visible, pixel style. Placeholder slots for projects he will add later.
 // 10x10 sprites: '#' = colour A, '+' = colour B, '.' = empty. Rendered as crisp SVG rects.
@@ -38,7 +39,7 @@ const SPRITES = {
   star:    ['....#.....', '....#.....', '...#+#....', '####+####.', '.#+++++#..', '..#+++#...', '..#+.+#...', '.#+...+#..', '.#.....#..', '..........'],
 };
 const PIXEL_SLOTS = [  // [sprite, x, y(fraction of viewport), colourA idx, colourB idx]
-  ['invader', .05, .52, 3, 3], ['heart', .95, .46, 0, 1], ['pad', .21, .13, 4, 2], ['star', .79, .88, 2, 1],
+  ['invader', .05, .52, 3, 3], ['pad', .21, .13, 4, 2], ['star', .79, .88, 2, 1],   // heart slot (.95,.46) became Ride Compare on 2026-11-06
 ];
 const pixelSvg = (rows, a, b) => `<svg viewBox="0 0 10 10" shape-rendering="crispEdges" aria-hidden="true">${rows.map((r, y) => [...r].map((c, x) =>
   c === '#' ? `<rect x="${x}" y="${y}" width="1" height="1" fill="${a}"/>` : c === '+' ? `<rect x="${x}" y="${y}" width="1" height="1" fill="${b}"/>` : '').join('')).join('')}</svg>`;
@@ -49,7 +50,7 @@ export function mountIconField(el, { projects = [], colors = [], onOpen = () => 
   const layer = document.createElement('div');
   layer.className = 'icon-field__layer';
   el.appendChild(layer);
-  const names = Object.keys(ICONS).filter(n => !['cross', 'laptop', 'terminal', 'graph'].includes(n));
+  const names = Object.keys(ICONS).filter(n => !['cross', 'laptop', 'terminal', 'graph', 'fold'].includes(n));
   const svg = (n, sw = 1.5) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]}</svg>`;
   let hots = [];
 
@@ -69,11 +70,11 @@ export function mountIconField(el, { projects = [], colors = [], onOpen = () => 
     projects.forEach((p, j) => {
       const h = HOT[p.id]; if (!h) return;
       const b = document.createElement('button');
-      b.className = `ico ico--hot ico--named ${h[1] < 0.5 ? 'ico--l' : h[1] > 0.5 ? 'ico--r' : 'ico--c'}`; b.type = 'button';   // named: label always on (2026-11-05)
-      b.setAttribute('aria-label', `Open ${p.name}`);
       const s = mobile ? 30 : 40;
       const hx = mobile && h[3] != null ? h[3] : h[1];
-      const hy = mobile ? Math.min(Math.max(h[4] != null ? h[4] : h[2], 0.2), 0.56) : h[2];   // phone: the bear's ears reach ~0.69H, keep every project icon (and its label) above them (and under the nav pill)
+      b.className = `ico ico--hot ico--named ${hx < 0.5 ? 'ico--l' : hx > 0.5 ? 'ico--r' : 'ico--c'}`; b.type = 'button';   // named: label always on (2026-11-05); side from the x actually used (phone may differ, 2026-11-06)
+      b.setAttribute('aria-label', `Open ${p.name}`);
+      const hy = mobile ? (h[4] != null ? h[4] : Math.min(Math.max(h[2], 0.2), 0.56)) : h[2];   // an explicit phone y is trusted; a desktop y is clamped (2026-11-06)   // phone: the bear's ears reach ~0.69H, keep every project icon (and its label) above them (and under the nav pill)
       Object.assign(b.style, { left: `calc(${hx * 100}% - ${s / 2}px)`, top: `${hy * H}px`, width: s + 'px', height: s + 'px', color: colors[j % colors.length] || 'currentColor' });
       b.innerHTML = svg(h[0], 1.8) + `<span class="ico__label">${p.name}</span>`;
       b.addEventListener('click', () => onOpen(p.id));
