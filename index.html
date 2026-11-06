@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Austin Zheng</title>
+<!-- 2026-11-06: a reload while scrolled restored the old scroll position under the opening, so the hero never showed and the
+     page sat on the flip box. The module script set this too late for Chrome; it must run before first layout. -->
+<script>if ('scrollRestoration' in history) history.scrollRestoration = 'manual';</script>
 <!-- SHELL — owned by the shell agent. Openings plug in via ?o=<id> (openings/<id>.js). ?skip=1 jumps to the hero. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Press+Start+2P&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -187,6 +190,9 @@ document.body.classList.add('opened');      // scroll cue keys off this, not nav
 document.getElementById('scroll-cue').addEventListener('click', () => scrollTo({ top: innerHeight, behavior: reducedMotion ? 'auto' : 'smooth' }));
 live = true;
 mountProjector($('projector-mount'), PROJECTS, { THREE });
+// the opening always ends on the hero: the body was overflow:hidden the whole time, so any scroll offset here is a
+// restored one (reload / bfcache), never the reader's — throw it away before the ScrollTrigger below can see it
+scrollTo(0, 0); requestAnimationFrame(() => scrollTo(0, 0));
 window.__openingDone = true;  // for automated screenshots
 
 // ── after the opening: scroll choreography, wallpaper, nav state ──
