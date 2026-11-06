@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Austin Zheng</title>
+<meta name="description" content="Austin Zheng — product lead for AI tools inside real workflows. Portfolio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  :root { --peach:#FFF1EB; --ink:#1e0f3c; --body:#2d1b40; --gold:#d4a042; --gold-deep:#b07e26; --ivory:rgba(245,243,239,.86);
+    --a1:#e4202e; --a2:#f47920; --a3:#ffb000; --a4:#4caf50; --a5:#2196f3;
+    --stripe:linear-gradient(90deg,var(--a1) 0 20%,var(--a2) 20% 40%,var(--a3) 40% 60%,var(--a4) 60% 80%,var(--a5) 80% 100%); }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { min-height:100%; background:var(--peach); color:var(--ink); font-family:'Space Grotesk',system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+  main { min-height:100vh; min-height:100svh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:48px 16px 64px; }
+  .kicker { font-family:'Press Start 2P',monospace; font-size:10px; letter-spacing:.08em; color:var(--body); display:inline-flex; align-items:center; gap:10px; }
+  .kicker::before, .kicker::after { content:''; width:40px; height:6px; border-radius:1px; background:var(--stripe); }
+  h1 { margin-top:28px; font-weight:800; font-size:clamp(3.4rem,12vw,9rem); line-height:.9; letter-spacing:-.03em; }
+  .tag { margin-top:.9rem; font-size:clamp(1rem,1.8vw,1.25rem); font-weight:500; letter-spacing:.04em; color:var(--gold-deep); }
+  .links { margin-top:40px; display:flex; flex-wrap:wrap; justify-content:center; gap:12px; }
+  .links a { display:inline-block; padding:12px 20px; border-radius:14px; background:var(--ivory); color:var(--ink); text-decoration:none; font-weight:700; font-size:.95rem; letter-spacing:.04em;
+    box-shadow:0 0 0 1.5px rgba(212,160,66,.35), 0 0 0 4px rgba(245,243,239,.7), 0 0 0 5.5px rgba(212,160,66,.2), 0 4px 24px rgba(90,60,20,.10); transition:transform .2s, color .2s; }
+  .links a:hover { transform:translateY(-2px); color:var(--gold-deep); }
+  .soon { margin-top:56px; font-family:'Press Start 2P',monospace; font-size:9px; letter-spacing:.12em; color:var(--body); opacity:.7; animation:blink 1.6s steps(2) infinite; }
+  @keyframes blink { 50% { opacity:.25; } }
+  footer { padding:0 16px 28px; text-align:center; font-size:12px; color:var(--body); opacity:.6; }
+  @media (prefers-reduced-motion:reduce) { .soon { animation:none; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">AI PRODUCT · BOSTON, MA</p>
+  <h1>AUSTIN<br>ZHENG</h1>
+  <p class="tag">I put AI into the work people already do.</p>
+  <nav class="links" aria-label="Contact">
+    <a href="mailto:aozuozheng@gmail.com">Email</a>
+    <a href="https://www.linkedin.com/in/aozuozheng" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a href="https://github.com/doriru89" target="_blank" rel="noopener">GitHub ↗</a>
+  </nav>
+  <p class="soon">FULL PORTFOLIO LOADING ▮▮▮▯▯</p>
+</main>
+<footer>Made with a bear, two cats and a rabbit.</footer>
+</body>
+</html>
