@@ -1,0 +1,45 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><style>
+.row{display:flex;align-items:stretch;gap:36px;margin-top:36px;height:520px}
+.phone{flex:0 0 400px;background:#202029;border:1px solid #3a3a46;border-radius:26px;padding:22px 22px 18px;display:flex;flex-direction:column;gap:12px;color:#f4f1fa;box-shadow:inset 0 0 0 6px #111116}
+.brand{font:700 13px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;color:#aba6b8;display:flex;justify-content:space-between}
+.field{background:#191920;border-radius:14px;padding:12px 14px;box-shadow:inset 3px 3px 6px #13131a,inset -2px -2px 5px #30303a;font-size:17px}
+.field small{display:block;color:#aba6b8;font-size:12px;margin-bottom:3px}
+.chips{display:flex;gap:8px}.chip{flex:1;text-align:center;background:#24242e;border-radius:12px;padding:8px 0;font-size:13px;color:#aba6b8;box-shadow:3px 3px 6px #13131a,-2px -2px 5px #30303a}
+.chosen{background:#302541;border:1px solid #79509b;border-radius:14px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-size:15px}
+.chosen i{font-style:normal;background:#713de8;color:#f6f0ff;border-radius:50%;width:26px;height:26px;display:grid;place-items:center;font-size:14px}
+.cmp{margin-top:auto;background:linear-gradient(#211b2b,#432558);border:2px solid #9864c7;border-radius:18px;padding:14px 16px 12px;text-align:center}
+.apps{display:flex;justify-content:center;align-items:center;gap:14px;margin-bottom:8px}
+.app{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font:700 13px sans-serif}
+.u{background:#08080c;color:#fff}.l{background:#713de8;color:#fff}.split{width:34px;height:46px;border:2px solid #b39acb;border-radius:6px;position:relative}.split:after{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:2px solid #b39acb}
+.cmp b{display:block;font-size:19px;color:#f5efdd;letter-spacing:.08em}
+.arrow{flex:0 0 90px;align-self:center;height:2px;background:linear-gradient(90deg,#2c2d33,#d4a042);position:relative}
+.arrow:after{content:"";position:absolute;right:-2px;top:-7px;border:8px solid transparent;border-left:12px solid #d4a042}
+.fold{flex:1;display:flex;gap:10px;background:#111116;border:1px solid #2c2d33;border-radius:22px;padding:18px}
+.pane{flex:1;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px;font-size:16px}
+.pane.ub{background:#15151a;border:1px solid #2c2d33}.pane.ly{background:#1a1424;border:1px solid #4a3268}
+.pane .hd{font:700 20px sans-serif}.pane .rt{color:#9a978f;font-size:14px}.pane .rt b{color:#e9e6df;font-weight:600}
+.opt{display:flex;justify-content:space-between;background:#0b0c10;border-radius:10px;padding:10px 12px;color:#c9c6be}
+.opt b{color:#f2e6c9;font-weight:600}.sel{outline:1px solid #d4a042}
+.stats{display:flex;gap:56px;margin-top:30px}.s b{display:block;font-size:40px;color:#f2e6c9}.s span{color:#9a978f;font-size:17px}
+</style></head><body>
+<div class="k">Ride Compare · Android utility for a foldable · schematic</div>
+<h1>Pick the destination once. See both rides side by side.</h1>
+<div class="sub">Share a place from Google Maps; the same pickup and destination open in Uber and Lyft in split screen.</div>
+<div class="row">
+ <div class="phone">
+  <div class="brand"><span>RIDE COMPARE</span><span>•••</span></div>
+  <div class="field"><small>去哪儿？</small>Boston Logan Airport, Terminal B</div>
+  <div class="chips"><div class="chip">Paste from clipboard</div><div class="chip">Google Maps</div><div class="chip">常用地址</div></div>
+  <div class="chosen"><span>Terminal B · East Boston, MA</span><i>✓</i></div>
+  <div class="field"><small>上车点</small>当前位置 · ±12 m</div>
+  <div class="cmp"><div class="apps"><div class="app u">Uber</div><div class="split"></div><div class="app l">lyft</div></div><b>比较价格</b></div>
+ </div>
+ <div class="arrow"></div>
+ <div class="fold">
+  <div class="pane ub"><div class="hd">Uber</div><div class="rt">Pickup <b>current location</b> → <b>Terminal B</b></div><div class="opt sel"><span>UberX</span><b>$ ··</b></div><div class="opt"><span>Comfort</span><b>$ ··</b></div><div class="opt"><span>UberXL</span><b>$ ··</b></div></div>
+  <div class="pane ly"><div class="hd">Lyft</div><div class="rt">Pickup <b>current location</b> → <b>Terminal B</b></div><div class="opt sel"><span>Lyft</span><b>$ ··</b></div><div class="opt"><span>Extra Comfort</span><b>$ ··</b></div><div class="opt"><span>XL</span><b>$ ··</b></div></div>
+ </div>
+</div>
+<div class="stats"><div class="s"><b>1</b><span>address entry instead of two</span></div><div class="s"><b>0</b><span>backends, SDKs or accounts</span></div><div class="s"><b>76</b><span>JVM checks on links, pickup, saved places</span></div><div class="s"><b>~10 min</b><span>of phone chat to the first APK</span></div></div>
+<div class="note">Schematic, not a screenshot. Prices stay inside the ride apps; Ride Compare only passes coordinates. Built with an AI assistant on the phone itself.</div>
+</body></html>

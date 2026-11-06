@@ -1,0 +1,35 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><style>
+.grid{display:grid;grid-template-columns:1.25fr 1fr;gap:28px;margin-top:40px}
+.term{background:#111216;border:1px solid #2c2d33;border-radius:14px;padding:22px 26px;font:17px/1.65 ui-monospace,Menlo,monospace;color:#c9c6be}
+.term .p{color:#d4a042}.term .d{color:#6d6a63}.term .g{color:#7fb98a}.term .r{color:#e0836f}
+.col{display:flex;flex-direction:column;gap:14px}
+.card{border:1px solid #2c2d33;border-radius:12px;padding:16px 20px;background:#121318}
+.card b{display:block;font-size:20px;margin-bottom:4px}.card span{color:#9a978f;font-size:16px}
+.gate{border-color:#d4a04288;background:#14130f}
+.stats{display:flex;gap:56px;margin-top:34px}.s b{display:block;font-size:40px;color:#f2e6c9}.s span{color:#9a978f;font-size:17px}
+</style></head><body>
+<div class="k">Asteria · personal AI workbench on Claude Code · schematic</div>
+<h1>Agents do the volume. A human signs the decisions.</h1>
+<div class="sub">A one-person operating system: skills, subagents, memory and checks wired into one governed loop.</div>
+<div class="grid">
+<div class="term">
+<div><span class="p">❯</span> recall "past decisions on retrieval" --top 5</div>
+<div class="d">  hybrid search · BM25 + vectors, fused by RRF</div>
+<div class="d">  graded against a 65-query golden set</div>
+<div><span class="p">❯</span> skill: plan-review  <span class="d">→ 7 lenses, fresh subagents</span></div>
+<div><span class="g">  ✓ 6 pass</span>   <span class="r">✗ 1 needs a human call</span></div>
+<div><span class="p">❯</span> write persistent memory</div>
+<div class="r">  blocked: persistent memory is proposal-only</div>
+<div class="d">  → staged as a proposal, waiting for review</div>
+<div><span class="p">❯</span> errata: new failure pattern captured</div>
+<div class="d">  → skill revised, check added at write time</div>
+</div>
+<div class="col">
+<div class="card"><b>Skills &amp; subagents</b><span>Procedures as composable files; agents with different stances for independent review</span></div>
+<div class="card"><b>Tiered memory</b><span>Session → domain → persistent; identity-level writes need human approval</span></div>
+<div class="card"><b>Mechanical checks</b><span>Hooks and reconcile scripts block bad writes instead of advising</span></div>
+<div class="card gate"><b>Human-in-the-loop gate</b><span>The AI stops at decision points, shows the evidence, and waits</span></div>
+</div></div>
+<div class="stats"><div class="s"><b>135</b><span>skills</span></div><div class="s"><b>37</b><span>subagent roles</span></div><div class="s"><b>2,100+</b><span>commits since Mar 2026</span></div><div class="s"><b>70+</b><span>captured failure patterns</span></div></div>
+<div class="note">Diagram of the system's loop (illustrative session); counts read from the repository on 2026-11-05.</div>
+</body></html>

@@ -1,0 +1,4 @@
+*{box-sizing:border-box;margin:0}body{width:1600px;height:1000px;background:#0b0c10;color:#e9e6df;font:20px/1.4 -apple-system,"Helvetica Neue",sans-serif;padding:64px 72px;overflow:hidden}
+.k{font:600 15px/1 ui-monospace,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:#d4a042}
+h1{font-size:44px;font-weight:650;margin:14px 0 6px;letter-spacing:-.01em}.sub{color:#9a978f;font-size:20px}
+.note{position:absolute;left:72px;bottom:40px;font:14px ui-monospace,Menlo,monospace;color:#6d6a63}
