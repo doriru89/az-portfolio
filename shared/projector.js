@@ -627,6 +627,7 @@ export function mountProjector(container, projects, { THREE } = {}) {
       const url = c.p && c.p.demoUrl;
       demoEl.style.display = url ? 'inline-block' : 'none';
       if (url) hint.style.opacity = '0';
+      hint.style.visibility = url ? 'hidden' : '';   // 2026-11-06: the blink animation overrides opacity, so the hint showed through the OPEN DEMO pill
       if (url) demoEl.href = url;
       const cap = capEl.children;
       cap[3].innerHTML = c.kind === 'chapter' ? arr(c.p.details).slice(0, 3).map(d => `<li>${esc(d)}</li>`).join('') : '';
