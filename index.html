@@ -4,42 +4,229 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Austin Zheng</title>
-<meta name="description" content="Austin Zheng — product lead for AI tools inside real workflows. Portfolio.">
+<!-- SHELL — owned by the shell agent. Openings plug in via ?o=<id> (openings/<id>.js). ?skip=1 jumps to the hero. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
-<style>
-  :root { --peach:#FFF1EB; --ink:#1e0f3c; --body:#2d1b40; --gold:#d4a042; --gold-deep:#b07e26; --ivory:rgba(245,243,239,.86);
-    --a1:#e4202e; --a2:#f47920; --a3:#ffb000; --a4:#4caf50; --a5:#2196f3;
-    --stripe:linear-gradient(90deg,var(--a1) 0 20%,var(--a2) 20% 40%,var(--a3) 40% 60%,var(--a4) 60% 80%,var(--a5) 80% 100%); }
-  * { box-sizing:border-box; margin:0; padding:0; }
-  html, body { min-height:100%; background:var(--peach); color:var(--ink); font-family:'Space Grotesk',system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
-  main { min-height:100vh; min-height:100svh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:48px 16px 64px; }
-  .kicker { font-family:'Press Start 2P',monospace; font-size:10px; letter-spacing:.08em; color:var(--body); display:inline-flex; align-items:center; gap:10px; }
-  .kicker::before, .kicker::after { content:''; width:40px; height:6px; border-radius:1px; background:var(--stripe); }
-  h1 { margin-top:28px; font-weight:800; font-size:clamp(3.4rem,12vw,9rem); line-height:.9; letter-spacing:-.03em; }
-  .tag { margin-top:.9rem; font-size:clamp(1rem,1.8vw,1.25rem); font-weight:500; letter-spacing:.04em; color:var(--gold-deep); }
-  .links { margin-top:40px; display:flex; flex-wrap:wrap; justify-content:center; gap:12px; }
-  .links a { display:inline-block; padding:12px 20px; border-radius:14px; background:var(--ivory); color:var(--ink); text-decoration:none; font-weight:700; font-size:.95rem; letter-spacing:.04em;
-    box-shadow:0 0 0 1.5px rgba(212,160,66,.35), 0 0 0 4px rgba(245,243,239,.7), 0 0 0 5.5px rgba(212,160,66,.2), 0 4px 24px rgba(90,60,20,.10); transition:transform .2s, color .2s; }
-  .links a:hover { transform:translateY(-2px); color:var(--gold-deep); }
-  .soon { margin-top:56px; font-family:'Press Start 2P',monospace; font-size:9px; letter-spacing:.12em; color:var(--body); opacity:.7; animation:blink 1.6s steps(2) infinite; }
-  @keyframes blink { 50% { opacity:.25; } }
-  footer { padding:0 16px 28px; text-align:center; font-size:12px; color:var(--body); opacity:.6; }
-  @media (prefers-reduced-motion:reduce) { .soon { animation:none; } }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Press+Start+2P&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/shell.css">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+<script>if(location.protocol==='file:'){document.addEventListener('DOMContentLoaded',()=>{const d=document.createElement('div');d.style.cssText='position:fixed;inset:0 0 auto 0;z-index:99999;background:#e4202e;color:#fff;font:600 15px/1.5 system-ui;padding:14px 20px';d.innerHTML='这个页面不能从文件直接打开（模块脚本需要走 http）。请在浏览器里打开 <a style="color:#fff" href="http://localhost:8777/compare.html">http://localhost:8777/compare.html</a>（先在 Claude 里启动 mockups 服务器）。';document.body.prepend(d);});}</script>
 </head>
-<body>
-<main>
-  <p class="kicker">AI PRODUCT · BOSTON, MA</p>
-  <h1>AUSTIN<br>ZHENG</h1>
-  <p class="tag">I put AI into the work people already do.</p>
-  <nav class="links" aria-label="Contact">
-    <a href="mailto:aozuozheng@gmail.com">Email</a>
-    <a href="https://www.linkedin.com/in/aozuozheng" target="_blank" rel="noopener">LinkedIn ↗</a>
-    <a href="https://github.com/doriru89" target="_blank" rel="noopener">GitHub ↗</a>
+<body class="locked">
+  <div id="icon-field" aria-hidden="false"></div>
+  <canvas id="bear-canvas"></canvas>
+  <!-- scroll cue (2026-11-05): mouse + "SCROLL" on desktop, swipe-up on touch; hides once the bear docks -->
+  <button id="scroll-cue" type="button" aria-label="Scroll down to the projects">
+    <span class="cue-arrows cue-arrows--top" aria-hidden="true"><svg viewBox="0 0 11 6" shape-rendering="crispEdges"><path d="M0 0h1v1H0zM10 0h1v1h-1zM1 1h1v1H1zM9 1h1v1H9zM2 2h1v1H2zM8 2h1v1H8zM3 3h1v1H3zM7 3h1v1H7zM4 4h1v1H4zM6 4h1v1H6zM5 5h1v1H5z"/></svg></span>
+    <span class="cue-txt cue-txt--pc">SCROLL</span><span class="cue-txt cue-txt--touch">SWIPE UP</span>
+    <span class="cue-arrows cue-arrows--bot" aria-hidden="true"><svg viewBox="0 0 11 6" shape-rendering="crispEdges"><path d="M0 0h1v1H0zM10 0h1v1h-1zM1 1h1v1H1zM9 1h1v1H9zM2 2h1v1H2zM8 2h1v1H8zM3 3h1v1H3zM7 3h1v1H7zM4 4h1v1H4zM6 4h1v1H6zM5 5h1v1H5z"/></svg></span>
+  </button>
+  <a id="bear-home" href="#top" aria-label="Back to top"><span class="sr-only">Back to top</span></a>
+  <!-- 2026-11-05 Austin: once the bear is in the porthole, the name + one-click contact sit beside it (HR must always see how to reach me) -->
+  <div id="bear-card" aria-hidden="true">
+    <span class="bear-card__name" id="card-name"></span>
+    <span class="bear-card__links"><a id="card-email" href="#">Email</a><a id="card-linkedin" href="#" target="_blank" rel="noopener">LinkedIn</a></span>
+  </div>
+
+  <nav id="nav-root" aria-label="Primary">
+    <div class="top-nav__inner">
+      <a href="#top" class="top-nav__logo" data-nav="top">AUSTIN</a>
+      <div class="top-nav__links">
+        <a href="#projects" class="top-nav__link" data-nav="projects">Projects</a>
+        <a href="#" class="top-nav__link" id="nav-email">Email</a>
+        <a href="#" class="top-nav__link" id="nav-resume" target="_blank" rel="noopener">Resume<span class="ext">↗</span></a>
+      </div>
+    </div>
   </nav>
-  <p class="soon">FULL PORTFOLIO LOADING...</p>
-</main>
-<footer>Made with a bear, two cats and a rabbit.</footer>
+
+  <main>
+    <section id="hero"><h1 id="hero-name">AUSTIN<br>ZHENG</h1><p id="hero-tagline"></p></section>
+    <section id="projects">
+      <header class="section-head">
+        <p class="section-head__kicker">SELECTED WORK</p>
+        <h2 class="section-head__title">Projects</h2>
+      </header>
+      <div id="projector-mount"></div>
+    </section>
+  </main>
+
+  <footer id="contact">
+    <div class="contact__stripes" aria-hidden="true"><i style="background:var(--a1)"></i><i style="background:var(--a2)"></i><i style="background:var(--a3)"></i><i style="background:var(--a4)"></i><i style="background:var(--a5)"></i></div>
+    <div class="contact__inner">
+      <div>
+        <p class="contact__kicker">PLAYER 2 — PRESS START</p>
+        <h2 class="contact__title">Let's build<br>something odd.</h2>
+        <a class="contact__email" id="contact-email" href="#"></a>
+      </div>
+      <ul class="contact__links" id="contact-links"></ul>
+    </div>
+    <div class="contact__base"><span id="contact-name"></span><span>Made with a bear, two cats and a rabbit.</span></div>
+  </footer>
+  <div id="opening"></div>
+
+<script type="module">
+import * as THREE from 'three';
+import { ATARI, UI } from './shared/palette.js';
+import { createBearRig, addBearLights } from './shared/bear.js';
+import { playIntro } from './shared/intro.js';
+import { PROFILE, PROJECTS } from './shared/content.js';
+import { mountProjector } from './shared/projector.js';
+import { createBearDock } from './shared/shell-dock.js';
+import { mountIconField } from './shared/shell-icons.js';
+
+const gsap = window.gsap;
+gsap.registerPlugin(window.ScrollTrigger);
+const params = new URLSearchParams(location.search);
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+scrollTo(0, 0);
+const $ = id => document.getElementById(id);
+
+// ── content into the shell ──
+$('hero-tagline').textContent = PROFILE.tagline;
+const resume = PROFILE.links.find(l => /resume|cv/i.test(l.label));
+if (resume) $('nav-resume').href = resume.href; else $('nav-resume').remove();
+$('contact-email').textContent = PROFILE.email; $('contact-email').href = `mailto:${PROFILE.email}`;
+$('nav-email').href = `mailto:${PROFILE.email}`;          // one click to write, from anywhere on the page
+$('card-name').textContent = PROFILE.name; $('card-email').href = `mailto:${PROFILE.email}`;
+const linkedin = PROFILE.links.find(l => /linkedin/i.test(l.label));
+if (linkedin) $('card-linkedin').href = linkedin.href; else $('card-linkedin').remove();
+$('contact-links').innerHTML = PROFILE.links.map(l => `<li><a href="${l.href}" target="_blank" rel="noopener">${l.label}</a></li>`).join('');
+$('contact-name').textContent = `© ${new Date().getFullYear()} ${PROFILE.name}`;
+
+// ── bear scene ──
+const canvas = $('bear-canvas');
+const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setClearColor(0x000000, 0);
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 100);
+addBearLights(THREE, scene);
+const rig = createBearRig(THREE, { riderScale: 0.52 /* 2026-11-05: head +20% on screen, riders -20% on screen → 0.78*0.8/1.2 */ });
+const pivot = new THREE.Group(); pivot.name = 'shell-pivot';   // shell-owned: flight tilt/squash, never touched by the rig
+pivot.add(rig.group); scene.add(pivot);
+const hero = { root: $('hero'), name: $('hero-name'), tagline: $('hero-tagline') };
+const seat = $('bear-home');
+const dock = createBearDock({ THREE, camera, pivot, rig, gsap, reducedMotion, canvas, seat, heroText: hero });
+let live = false;   // true once the opening is done: the dock drives the camera every frame
+function resize() {
+  renderer.setSize(innerWidth, innerHeight, false);
+  dock.relayout();
+  if (!live) dock.applyHero();
+}
+addEventListener('resize', resize); resize();
+document.fonts && document.fonts.ready.then(() => { dock.relayout(); if (!live) dock.applyHero(); });
+
+const mouseClient = { x: innerWidth / 2, y: innerHeight / 2 };
+const mouse = { x: 0, y: 0 };
+addEventListener('mousemove', e => { mouseClient.x = e.clientX; mouseClient.y = e.clientY; mouse.x = e.clientX / innerWidth * 2 - 1; mouse.y = -(e.clientY / innerHeight) * 2 + 1; }, { passive: true });
+
+let renderOverride = null;
+const clock = new THREE.Clock();
+renderer.setAnimationLoop(now => {
+  const dt = clock.getDelta();
+  rig.ridersStill = live && dock.u > 0.35;   // riders stop moving once the bear flies up to the corner
+  rig.update(dt, live ? dock.frame(dt, performance.now(), mouseClient) : mouse);
+  if (renderOverride) renderOverride(renderer, scene, camera, dt); else renderer.render(scene, camera);
+});
+
+// (the projector mounts AFTER the opening — its init builds a second renderer, an environment map and the first
+//  card textures, ~80 ms of main-thread work that used to land in the middle of the opening)
+
+// ── OPENING CONTRACT ──
+// export default async function play(ctx); resolve when the hero is fully shown and the opening layer is clean.
+// ctx fields:
+//   gsap, THREE, palette {ATARI, UI}, reducedMotion
+//   stage            full-screen fixed layer above everything (z 100)
+//   intro()          shared intro (~1.3s, INTRO_END in shared/intro.js); resolves {root, ribbons}
+//   hero             DOM: root / name / tagline (start at opacity 0)
+//   bear             { rig, scene, camera, renderer, canvas } — canvas starts at opacity 0.
+//                    NOTE: rig.group is parented to a shell pivot group (scene > pivot > rig.group). The camera is
+//                    already in the hero framing (camera.setViewOffset — keep aspect = innerWidth/innerHeight and
+//                    don't clearViewOffset). Render with (scene, camera) and you get exactly the final hero picture.
+//   setRenderOverride(fn)   fn(renderer, scene, camera, dt) or null to restore
+//   showHero({duration})    default reveal; variants may animate hero/canvas themselves then call with duration 0
+//   [added] layout          { heroBearTop } — px from the viewport top where the bear's highest point (ears/riders) sits
+//   [added] applyHeroCamera()  re-apply the hero framing (call if your opening moved/zoomed the camera)
+//   [added] showNav()  start the nav's 0.4s fade/slide-in now (idempotent). Call it ~0.3–0.5s before you resolve, once
+//                      the area under the nav is page-coloured, so the nav lands with the hero instead of after it.
+//                      The shell calls it anyway after play() resolves.
+// After play() resolves the shell resets the camera to the hero framing, then owns it (scroll → corner dock).
+const ctx = {
+  gsap, THREE, palette: { ATARI, UI }, reducedMotion,
+  stage: $('opening'),
+  intro: () => playIntro($('opening'), gsap),
+  hero,
+  bear: { rig, scene, camera, renderer, canvas },
+  setRenderOverride(fn) { renderOverride = fn; },
+  showHero({ duration = 0.8 } = {}) { return gsap.to([hero.root, canvas], { opacity: 1, duration }); },
+  get layout() { return { heroBearTop: dock.layout.hero.top }; },
+  applyHeroCamera: () => dock.applyHero(),
+  showNav: () => document.body.classList.add('nav-on'),
+};
+window.__shell = { dock, ctx };  // debug / automated screenshots
+
+const id = params.get('skip') ? null : (params.get('o') || 'bc');   // 2026-11-05 Austin chose BC
+if (!id || reducedMotion) { await ctx.showHero({ duration: 0 }); }
+else { const mod = await import(`./openings/${id}.js`); await mod.default(ctx); }
+ctx.stage.innerHTML = '';
+renderOverride = null;
+gsap.set([hero.root, canvas], { opacity: 1 });
+renderer.setSize(innerWidth, innerHeight, false);
+dock.relayout(); dock.applyHero();
+document.body.classList.remove('locked');
+ctx.showNav();                              // no-op if the opening already started it (CSS transition does the fade)
+document.body.classList.add('opened');      // scroll cue keys off this, not nav-on, so an early nav doesn't bring the cue early
+document.getElementById('scroll-cue').addEventListener('click', () => scrollTo({ top: innerHeight, behavior: reducedMotion ? 'auto' : 'smooth' }));
+live = true;
+mountProjector($('projector-mount'), PROJECTS, { THREE });
+window.__openingDone = true;  // for automated screenshots
+
+// ── after the opening: scroll choreography, wallpaper, nav state ──
+let targetedAt = -1e9;   // an icon click owns the scroll for a moment; autoAdvance must not override it
+ScrollTrigger.create({
+  trigger: hero.root, start: 'top+=2 top',
+  onEnter: () => { dock.dock(); document.body.classList.add('docked'); $('bear-card').setAttribute('aria-hidden', 'false'); autoAdvance(); },
+  onLeaveBack: () => { dock.undock(); document.body.classList.remove('docked'); $('bear-card').setAttribute('aria-hidden', 'true'); },
+});
+if (scrollY > 2) { dock.dock(); document.body.classList.add('docked'); $('bear-card').setAttribute('aria-hidden', 'false'); }
+// 2026-11-05 Austin: no empty gap between the bear flying up and the flip box — the first scroll carries the
+// reader straight to the start of the projector track (box arrives while the bear is still in flight).
+function autoAdvance() {
+  if (performance.now() - targetedAt < 2500) return;
+  const t = document.querySelector('.pj-track'); if (!t) return;
+  const top = scrollY + t.getBoundingClientRect().top;
+  if (scrollY > top - 40) return;                       // already there or past (e.g. scrolling back down)
+  setTimeout(() => scrollTo({ top, behavior: reducedMotion ? 'auto' : 'smooth' }), 120);
+}
+
+function openProject(pid) {
+  targetedAt = performance.now();
+  // the projector takes this (preventDefault) and cranks straight to the project's chapter card; otherwise just scroll there
+  const taken = !window.dispatchEvent(new CustomEvent('portfolio:open-project', { detail: { id: pid }, cancelable: true }));
+  if (!taken) $('projects').scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' });
+}
+mountIconField($('icon-field'), { projects: PROJECTS, colors: ATARI, onOpen: openProject, reducedMotion });
+
+document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+  const href = a.getAttribute('href'); if (href.length < 2) return;
+  e.preventDefault();
+  const el = href === '#top' ? null : document.querySelector(href);
+  if (el) el.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' });
+  else scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
+}));
+const links = [...document.querySelectorAll('.top-nav__link[data-nav]')];
+const mark = idv => links.forEach(l => l.classList.toggle('is-active', l.dataset.nav === idv));
+['projects'].forEach(idv => ScrollTrigger.create({
+  trigger: '#' + idv, start: 'top 55%', end: 'bottom 45%',
+  onToggle: s => { if (s.isActive) mark(idv); else if (idv === 'projects' && s.direction < 0) mark(null); },
+}));
+</script>
 </body>
 </html>
