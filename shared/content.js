@@ -70,7 +70,7 @@ export const PROJECTS = [
     details: [
       'Gates are mechanical: brands ≥ 8, products ≥ 20, ≥ 2 independent sources per shortlisted product, ≥ 2 named blind spots',
       'Evidence and decision never share a turn: the evidence is rendered first, the decision asked next',
-      'Interactive demo replays a full run; flip the "thin census" switch to watch a gate fail and the recommendation downgrade itself',
+      'Interactive demo: a market map (price × yearly effort) that narrows with every answer until one sweet spot is left; flip the "thin census" switch to watch a gate fail',
     ],
     tech: ['Claude Code', 'Markdown skills', 'WebSearch + Playwright MCP'],
     year: '2026', role: 'Designer & sole builder',
