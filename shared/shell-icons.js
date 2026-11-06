@@ -26,7 +26,8 @@ export const ICONS = {
   rocket: P('M12 2.5c3 2.5 4.5 6 4.5 10L14 16h-4l-2.5-3.5c0-4 1.5-7.5 4.5-10z') + '<circle cx="12" cy="9.5" r="1.6"/>' + P('M7.5 12.5L5 15l1 3 3-2M16.5 12.5L19 15l-1 3-3-2M11 19l1 2.5 1-2.5'),
 };
 // project id -> icon + where it lives (fractions of the viewport; kept in the side margins, clear of the hero copy)
-const HOT = { asteria: ['terminal', .08, .30], aios: ['terminal', .08, .30], artopath: ['graph', .9, .22], carecost: ['cross', .1, .74], lenovo: ['laptop', .9, .68] };
+// 2026-11-06 Austin: CareCost ↔ Asteria and Lenovo ↔ Artopath swapped (CareCost + Lenovo up top, Asteria + Artopath by the bear)
+const HOT = { carecost: ['cross', .08, .24], aios: ['terminal', .1, .74], lenovo: ['laptop', .9, .22], asteria: ['terminal', .1, .74], artopath: ['graph', .9, .68] };
 
 // 2026-11-05 Austin: four more, more visible, pixel style. Placeholder slots for projects he will add later.
 // 10x10 sprites: '#' = colour A, '+' = colour B, '.' = empty. Rendered as crisp SVG rects.
