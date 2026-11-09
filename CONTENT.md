@@ -14,7 +14,7 @@ Tagline: **"I put AI into the work people already do."** The enterprise evidence
 | CareCost | hackathon win, public repo | real screenshot (no patient or doctor names) | GitHub repo | `doriru89/Carecost` · no licence file |
 | Asteria | personal agent workbench (harness on Claude Code) | schematic (`src/asteria.html`) | public shell + demo at doriru89.github.io/asteria | `doriru89/asteria` · MIT |
 | Chronicle | Asteria's visual layer: every AI coding session as a quest; its own card on purpose (Austin, 2026-11-06) | screenshot of the public page (fictional data) | doriru89.github.io/asteria/chronicle.html | `doriru89/asteria` · MIT |
-| WiseShopper | open-source Claude Code skill (`/shop`) | screenshot of the public demo | GitHub repo (no Pages yet, so the demo HTML is not viewable live) | `doriru89/shop-skill` · MIT |
+| WiseShopper | open-source Claude Code skill (`/shop`) | screenshot of the public demo | live demo at doriru89.github.io/wiseshopper/demo/shop-workflow.html (Pages enabled 2026-11-06) | `doriru89/wiseshopper` (was `shop-skill`; GitHub redirects) · MIT |
 | Ride Compare | Android utility, public repo | schematic (`src/ridecompare.html`) | GitHub repo | `doriru89/ride-compare` · MIT |
 | Artopath | personal media library | real screenshot | none (repo private) | private |
 

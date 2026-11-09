@@ -90,7 +90,7 @@ export const PROJECTS = [
     tech: ['Claude Code', 'Markdown skills', 'WebSearch + Playwright MCP'],
     year: '2026', role: 'Designer & sole builder',
     image: 'assets/screens/shop.jpg', imageNote: 'Screenshot of the public demo.',
-    demoUrl: 'https://github.com/doriru89/shop-skill' },
+    demoUrl: 'https://doriru89.github.io/wiseshopper/demo/shop-workflow.html' },   // 2026-11-06: repo renamed doriru89/wiseshopper, Pages enabled; the pill opens the interactive demo, the README is one click from there
 
   // 2026-11-06: sixth card — Ride Compare, public at github.com/doriru89/ride-compare (Android utility Austin built with an AI assistant on his phone; numbers from the repo's README/VALIDATION.md and the LinkedIn draft)
   { id: 'ridecompare', name: 'Ride Compare', kicker: 'Android utility · built by chatting with an AI on the phone itself',
