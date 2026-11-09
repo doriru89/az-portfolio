@@ -178,3 +178,9 @@ body.opened:not(.docked) #scroll-cue { opacity:1; pointer-events:auto; transform
   @keyframes cueRise { 0% { transform:translateY(3px); } 100% { transform:translateY(-4px); } }
 }
 @media (prefers-reduced-motion:reduce) { .cue-txt, .cue-arrows { animation:none !important; } }
+/* 2026-11-09 Austin: on phones the plate was too big next to the smaller name and tags; about 60% */
+@media (max-width:640px) {
+  #scroll-cue { gap:5px; padding:7px 11px 8px; font-size:7px; box-shadow:0 0 0 2px var(--peach), 0 0 0 4px var(--ink), 4px 4px 0 4px rgba(30,15,60,.22); }
+  #scroll-cue::after { bottom:-8px; height:2px; }
+  .cue-arrows svg { width:14px; height:8px; }
+}
