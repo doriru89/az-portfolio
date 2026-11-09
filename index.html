@@ -169,6 +169,17 @@ const ctx = {
 };
 window.__shell = { dock, ctx };  // debug / automated screenshots
 
+// The wallpaper mounts BEFORE the opening: the opening reads the hot icons' rects and resolves them ASCII → pixels
+// with the bear, then the DOM icons take over in the same place.
+let targetedAt = -1e9;   // an icon click owns the scroll for a moment; autoAdvance must not override it
+function openProject(pid) {
+  targetedAt = performance.now();
+  // the projector takes this (preventDefault) and cranks straight to the project's chapter card; otherwise just scroll there
+  const taken = !window.dispatchEvent(new CustomEvent('portfolio:open-project', { detail: { id: pid }, cancelable: true }));
+  if (!taken) $('projects').scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' });
+}
+mountIconField($('icon-field'), { projects: PROJECTS, colors: ATARI, onOpen: openProject, reducedMotion });
+
 const id = params.get('skip') ? null : (params.get('o') || 'bc');   // 2026-11-05 Austin chose BC
 if (!id || reducedMotion) { await ctx.showHero({ duration: 0 }); }
 else { const mod = await import(`./openings/${id}.js`); await mod.default(ctx); }
@@ -189,7 +200,6 @@ scrollTo(0, 0); requestAnimationFrame(() => scrollTo(0, 0));
 window.__openingDone = true;  // for automated screenshots
 
 // ── after the opening: scroll choreography, wallpaper, nav state ──
-let targetedAt = -1e9;   // an icon click owns the scroll for a moment; autoAdvance must not override it
 ScrollTrigger.create({
   trigger: hero.root, start: 'top+=2 top',
   onEnter: () => { dock.dock(); document.body.classList.add('docked'); autoAdvance(); },
@@ -205,14 +215,6 @@ function autoAdvance() {
   if (scrollY > top - 40) return;                       // already there or past (e.g. scrolling back down)
   setTimeout(() => scrollTo({ top, behavior: reducedMotion ? 'auto' : 'smooth' }), 120);
 }
-
-function openProject(pid) {
-  targetedAt = performance.now();
-  // the projector takes this (preventDefault) and cranks straight to the project's chapter card; otherwise just scroll there
-  const taken = !window.dispatchEvent(new CustomEvent('portfolio:open-project', { detail: { id: pid }, cancelable: true }));
-  if (!taken) $('projects').scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' });
-}
-mountIconField($('icon-field'), { projects: PROJECTS, colors: ATARI, onOpen: openProject, reducedMotion });
 
 document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
   const href = a.getAttribute('href'); if (href.length < 2) return;

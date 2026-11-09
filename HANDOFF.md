@@ -9,7 +9,7 @@ Read this file, then `DEV.md` (how to run and verify) and `CONTENT.md` (where ea
 
 One scroll, three scenes:
 
-1. **Opening "BC"**: the shared intro (glitch, colour bars), then the bear rises as ASCII that resolves into pixels and into the 3D head, the name drops in. ≈2.8 s. `?skip=1` skips it.
+1. **Opening "BC"**: the shared intro (glitch, colour bars), then the bear rises as ASCII that resolves into pixels and into the 3D head, the name drops in. The project icons and their labels resolve with it (finer ASCII grid, then the same pixel stages). ≈2.8 s. `?skip=1` skips it.
 2. **Hero**: the name, a tagline, a low-poly bear head peeking from the bottom edge with three riders (rabbit centre, two cats on the slope), a sparse line-icon wallpaper with one coloured, labelled icon per project, and a pixel "SCROLL" plate.
 3. **Profile Box**: on the first scroll the bear flies to a porthole top-left and the page lands on a hand-cranked split-flap box ("AZ PROFILE BOX") that turns one card per scroll: leader, then per project a chapter card and a screenshot page, then "fin.". Footer: "Let's build something together." with Resume / LinkedIn / GitHub buttons.
 
@@ -17,7 +17,7 @@ One scroll, three scenes:
 
 | File | Role |
 |---|---|
-| `index.html` | shell: opening loader + `ctx` contract, hero, the ONE WebGL canvas, scroll choreography (dock on first scroll, auto-advance to the box), icon field mount, projector mount (after the opening), footer |
+| `index.html` | shell: opening loader + `ctx` contract, hero, the ONE WebGL canvas, scroll choreography (dock on first scroll, auto-advance to the box), icon field mount (before the opening, which reads the hot icons' rects), projector mount (after the opening), footer |
 | `shared/content.js` | all copy: `PROFILE`, `PROJECTS[]` (id, name, kicker, title, impact, description, details, tech, image, demoUrl) |
 | `shared/intro.js` | shared intro, `INTRO_END = 0.68` |
 | `openings/bc.js` | the chosen opening (`?bct=<s>` freezes a frame) |
@@ -32,7 +32,7 @@ One scroll, three scenes:
 
 ## Decisions Austin made (do not relitigate)
 
-- Opening **BC** (ASCII → pixels → bear). AB / C / D / ABC variants were compared and dropped; they stay in his private workspace only.
+- Opening **BC** (ASCII → pixels → bear). Project icons + labels go ASCII → pixels → clear with the bear (2026-11-08); the hero's final look is unchanged. AB / C / D / ABC variants were compared and dropped; they stay in his private workspace only.
 - Bear hero with riders; no bear eyes; symmetric nose; riders still once docked. Head size: `HERO_SCALE 1.3`; porthole `--dock: 126px` (phone 75px).
 - Hero camera `(0, 2.9, 8.5)` looking at `(0, 1.9, 0)`: further back for a rounder dome; the head's on-screen width is fixed by `relayout()`, so camera distance does not change size.
 - Scroll plate centred, `bottom: 6vh`, pixel chevrons; touch devices show "SWIPE UP" with chevrons flipped.

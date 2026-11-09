@@ -81,7 +81,8 @@ void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }`;
 
 const FRAG = /* glsl */`
 precision highp float;
-uniform sampler2D tScene, tText, tTextR, tGlyph;
+uniform sampler2D tScene, tText, tTextR, tGlyph, tIcon;
+uniform float uIconCell;
 uniform vec2 uRes;
 uniform float uCell, uMode, uColorMode, uTime, uPR;
 uniform float uDecay, uDrain, uText, uBg, uRowShift;
@@ -210,7 +211,25 @@ void main() {
     if (bl > 0.06) { idx = bearIdx; gcol = dr >= 1.0 ? nearestAscii(bear.rgb) : col; }
 
     float m = idx > 0.5 ? glyphMask(idx, vec2(f.x, f.y)) : 0.0;
-    gl_FragColor = vec4(mix(bg, gcol, m), 1.0);
+    vec3 outc = mix(bg, gcol, m);
+
+    // project icons + labels: their own finer grid, so a 40 px icon is ~8×8 glyphs and reads as ASCII art
+    vec2 fid = floor(frag / uIconCell);
+    vec2 ff = fract(frag / uIconCell);
+    vec2 fc = (fid + 0.5) * uIconCell;
+    vec2 fuv = vec2(fc.x / uRes.x, 1.0 - fc.y / uRes.y);
+    vec2 fd = vec2(uIconCell / uRes.x, uIconCell / uRes.y) * 0.3;
+    vec4 i0 = texture2D(tIcon, fuv), i1 = texture2D(tIcon, fuv + fd * vec2(-1., -1.)), i2 = texture2D(tIcon, fuv + fd * vec2(1., -1.)),
+         i3 = texture2D(tIcon, fuv + fd * vec2(-1., 1.)), i4 = texture2D(tIcon, fuv + fd * vec2(1., 1.));
+    float ia = (i0.a + i1.a + i2.a + i3.a + i4.a) / 5.0;
+    if (ia > 0.06 && bl <= 0.06) {
+      vec3 icol = (i0.rgb * i0.a + i1.rgb * i1.a + i2.rgb * i2.a + i3.rgb * i3.a + i4.rgb * i4.a) / max(1e-4, ia * 5.0);
+      float ir = clamp((uText - hash(fid + 5.7) * 0.6) / 0.4, 0.0, 1.0);
+      float iidx = ir < 1.0 ? uRamp0 + 1.0 + floor(hash(fid + tick + 9.2) * 8.0) : uRamp0 + floor(clamp(0.25 + ia * 1.1, 0.0, 1.0) * 9.49);
+      float im = step(0.001, ir) * glyphMask(iidx, ff);
+      outc = mix(outc, icol, im);
+    }
+    gl_FragColor = vec4(outc, 1.0);
     return;
   }
 
@@ -218,9 +237,11 @@ void main() {
   // name flips peach→ink exactly where the (undithered) sweep line has passed — keeps letters clean
   float swept = step((1.0 - yN) * 0.5 + 0.25, uBg);
   vec3 tcol = swept > 0.5 ? text.rgb : textR.rgb;
+  vec4 icon = texture2D(tIcon, uvC);
   vec3 c = mix(bg, tcol, text.a);
+  c = mix(c, icon.rgb, icon.a);
   c = mix(c, bear.rgb, bear.a);
-  float fg = max(text.a, bear.a);
+  float fg = max(max(text.a, icon.a), bear.a);
 
   if (uColorMode > -0.5 && fg > 0.02) {   // quantize foreground only: bg already is a clean 1-bit dither
     float d = bayer4(cid) - 0.5;
@@ -273,6 +294,68 @@ function heroTextCanvas(hero, w, h, pr, rainbow = null) {
   drawWords(hero.tagline, null);
   return c;
 }
+function iconCanvas(w, h, pr, icons) {
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const g = c.getContext('2d');
+  g.scale(pr, pr);
+  drawHotIcons(g, icons);
+  return c;
+}
+
+// Project icons resolve with the bear: the hero's hot icons (already mounted under the opening) are drawn into the
+// own texture at their live rects; the shader gives them a finer ASCII grid than the bear (a 40 px icon would be 3×3
+// glyphs at the bear's cell size), then they sharpen through the pixel stages with the name,
+// and the DOM icons take over at the hand-off in the same place.
+async function loadHotIcons() {
+  const out = [];
+  for (const b of document.querySelectorAll('#icon-field .ico--hot')) {
+    const svg = b.querySelector('svg'); if (!svg) continue;
+    const r = b.getBoundingClientRect();
+    const k = 4;   // raster at 4× so the icon is still crisp at the last (1 px) stage
+    const s = svg.cloneNode(true);
+    s.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    s.setAttribute('width', r.width * k); s.setAttribute('height', r.height * k);
+    const color = getComputedStyle(b).color;
+    const img = new Image();
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s.outerHTML.replaceAll('currentColor', color));
+    out.push({ b, img, color });
+  }
+  await Promise.all(out.map(o => o.img.decode().catch(() => {})));
+  return out;
+}
+
+function drawHotIcons(g, icons) {
+  for (const { b, img, color } of icons) {
+    const r = b.getBoundingClientRect();
+    const cs = getComputedStyle(b);
+    g.save();
+    g.globalAlpha = parseFloat(cs.opacity) || 1;
+    if (img.complete && img.naturalWidth) g.drawImage(img, r.left, r.top, r.width, r.height);
+    if (b.classList.contains('ico--named')) {
+      // dashed ring (::before: inset -9px, 2px dashed, opacity .55)
+      g.save(); g.globalAlpha *= 0.55; g.strokeStyle = color; g.lineWidth = 2; g.setLineDash([5, 4]);
+      g.beginPath(); g.arc(r.left + r.width / 2, r.top + r.height / 2, r.width / 2 + 8, 0, Math.PI * 2); g.stroke(); g.restore();
+      // Undertale label: ink outline + offset shadow, peach border, ink plate, "* " in a3 then the name in peach
+      const l = b.querySelector('.ico__label');
+      if (l) {
+        const lr = l.getBoundingClientRect(), ls = getComputedStyle(l), bw = parseFloat(ls.borderTopWidth) || 0;
+        g.fillStyle = 'rgba(30,15,60,.25)'; g.fillRect(lr.left + 1, lr.top + 1, lr.width + 4, lr.height + 4);
+        g.fillStyle = ls.backgroundColor; g.fillRect(lr.left - 2, lr.top - 2, lr.width + 4, lr.height + 4);
+        g.fillStyle = ls.borderTopColor; g.fillRect(lr.left, lr.top, lr.width, lr.height);
+        g.fillStyle = ls.backgroundColor; g.fillRect(lr.left + bw, lr.top + bw, lr.width - 2 * bw, lr.height - 2 * bw);
+        g.font = `${ls.fontWeight} ${ls.fontSize} ${ls.fontFamily}`;
+        if ('letterSpacing' in g) g.letterSpacing = ls.letterSpacing === 'normal' ? '0px' : ls.letterSpacing;
+        g.textBaseline = 'top';
+        let x = lr.left + bw + parseFloat(ls.paddingLeft);
+        const y = lr.top + bw + parseFloat(ls.paddingTop);
+        g.fillStyle = getComputedStyle(l, '::before').color; g.fillText('* ', x, y); x += g.measureText('* ').width;
+        g.fillStyle = ls.color; g.fillText(l.textContent, x, y);
+      }
+    }
+    g.restore();
+  }
+}
 
 export default async function play(ctx) {
   const { THREE, gsap, hero, bear, palette } = ctx;
@@ -283,9 +366,11 @@ export default async function play(ctx) {
     document.fonts.load('700 100px "Space Grotesk"'),
     document.fonts.load('400 20px "Space Grotesk"'),
     document.fonts.load('700 40px "JetBrains Mono"'),
+    document.fonts.load('400 8px "Press Start 2P"'),
   ]).catch(() => {});
   const introP = ctx.intro();
   await fontsP;
+  const icons = await loadHotIcons();
 
   const { renderer, scene, camera, rig, canvas } = bear;
   const prevPR = renderer.getPixelRatio();
@@ -302,6 +387,8 @@ export default async function play(ctx) {
   const { ATARI, UI } = palette;
   const mkText = rainbow => { const t = new THREE.CanvasTexture(heroTextCanvas(hero, size.x, size.y, pr, rainbow)); t.minFilter = THREE.LinearFilter; t.generateMipmaps = false; return t; };
   let textTex = mkText(null), textTexR = mkText(ATARI);
+  const mkIcon = () => { const t = new THREE.CanvasTexture(iconCanvas(size.x, size.y, pr, icons)); t.minFilter = THREE.LinearFilter; t.generateMipmaps = false; return t; };
+  let iconTex = mkIcon();
 
   const raw = h => { const c = new THREE.Color(); c.setHex(parseInt(h.slice(1), 16), THREE.NoColorSpace); return new THREE.Vector3(c.r, c.g, c.b); };
   const pal = [ '#000000', UI.peach, UI.ink, ...ATARI, '#7a3e12', '#c49a5c' ].map(raw);
@@ -309,7 +396,7 @@ export default async function play(ctx) {
   const mat = new THREE.ShaderMaterial({
     vertexShader: VERT, fragmentShader: FRAG, depthTest: false, depthWrite: false,
     uniforms: {
-      tScene: { value: rt.texture }, tText: { value: textTex }, tTextR: { value: textTexR }, tGlyph: { value: glyphTex },
+      tScene: { value: rt.texture }, tText: { value: textTex }, tTextR: { value: textTexR }, tGlyph: { value: glyphTex }, tIcon: { value: iconTex }, uIconCell: { value: 5 * pr },
       uRes: { value: size.clone() }, uCell: { value: 16 * pr }, uMode: { value: 0 }, uColorMode: { value: 0 },
       uTime: { value: 0 }, uPR: { value: pr },
       uDecay: { value: 0 }, uDrain: { value: 0 }, uText: { value: 0 }, uBg: { value: 0 }, uRowShift: { value: 0 },
@@ -344,6 +431,7 @@ export default async function play(ctx) {
       if (size.x !== rt.width || size.y !== rt.height) {
         rt.setSize(size.x, size.y); U.uRes.value.copy(size);
         textTex.dispose(); textTexR.dispose(); textTex = mkText(null); textTexR = mkText(ATARI); U.tText.value = textTex; U.tTextR.value = textTexR;
+        iconTex.dispose(); iconTex = mkIcon(); U.tIcon.value = iconTex;
       }
 
       if (t >= T.end) {
@@ -355,7 +443,7 @@ export default async function play(ctx) {
         renderer.setSize(innerWidth, innerHeight, false);
         renderer.setRenderTarget(null);
         renderer.render(scene, camera);
-        rt.dispose(); mat.dispose(); quad.geometry.dispose(); glyphTex.dispose(); textTex.dispose(); textTexR.dispose();
+        rt.dispose(); mat.dispose(); quad.geometry.dispose(); glyphTex.dispose(); textTex.dispose(); textTexR.dispose(); iconTex.dispose();
         resolve();
         return;
       }
