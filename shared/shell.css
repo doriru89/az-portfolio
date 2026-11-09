@@ -120,7 +120,12 @@ body.docked #bear-home { pointer-events:auto; cursor:pointer; }
   .ico--named.ico--l .ico__label { left:0; transform:none; }
   .ico--named.ico--r .ico__label { left:auto; right:0; transform:none; }
 }
-@media (prefers-reduced-motion:reduce) { .ico--named::before { animation:none; } }
+/* each project icon floats on its own slow cycle (period, lift, tilt and start delay per icon in shell-icons.js `HOT`).
+   It uses the separate translate / rotate properties, so the hover transform (scale + tilt) still composes on top; it
+   starts after the opening so the opening's hand-off lands on the resting spot */
+body.opened .ico--named { animation:icoBob var(--bob-t, 5s) ease-in-out var(--bob-d, 0s) infinite; }
+@keyframes icoBob { 0%, 100% { translate:0 0; rotate:0deg; } 25% { rotate:var(--bob-r0, 1deg); } 50% { translate:0 var(--bob-a, -6px); } 75% { rotate:var(--bob-r1, -1deg); } }
+@media (prefers-reduced-motion:reduce) { .ico--named::before, body.opened .ico--named { animation:none; } }
 
 /* ── mobile ── */
 @media (max-width:640px) {

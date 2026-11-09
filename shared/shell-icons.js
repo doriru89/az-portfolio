@@ -26,9 +26,23 @@ export const ICONS = {
   fold: P('M4 4h7v16H4z') + P('M13 4h7v16h-7z') + P('M8 12h8M14 9.5l2.5 2.5-2.5 2.5'),
   rocket: P('M12 2.5c3 2.5 4.5 6 4.5 10L14 16h-4l-2.5-3.5c0-4 1.5-7.5 4.5-10z') + '<circle cx="12" cy="9.5" r="1.6"/>' + P('M7.5 12.5L5 15l1 3 3-2M16.5 12.5L19 15l-1 3-3-2M11 19l1 2.5 1-2.5'),
 };
-// project id -> icon + where it lives (fractions of the viewport; kept in the side margins, clear of the hero copy)
-// 2026-11-06 Austin: CareCost ↔ Asteria and Lenovo ↔ Artopath swapped (CareCost + Lenovo up top, Asteria + Artopath by the bear)
-const HOT = { carecost: ['cross', .08, .24], aios: ['terminal', .1, .68], lenovo: ['laptop', .9, .22], asteria: ['terminal', .1, .68], artopath: ['graph', .9, .64], shop: ['compass', .5, .14, .5, .56], ridecompare: ['fold', .9, .43, .5, .15], chronicle: ['rocket', .08, .42, false] };   // chronicle (2026-11-06): desktop left margin between CareCost and the invader sprite (.52); on phones every slot beside the name is taken, so no hero icon there   // ridecompare (2026-11-06): desktop right margin between Lenovo and Artopath (the pixel heart's old slot); phone: top band under the nav, centred   // shop: centred between the nav and the name; phone (4th/5th = x,y): the lower band, between Asteria and Artopath
+// project id -> [icon, x, y, phone x, phone y, bob] (fractions of the viewport; y is the icon's top, the label hangs under it).
+// Hand-placed, asymmetric (ikebana, not an orbit; 2026-11-09 Austin): four on the left, three on the right, the weight a
+// little up and to the left. Left: Lenovo + CareCost a pair stepping down from beside the nav, Chronicle alone at
+// mid-height, Asteria alone low by the hill. Right: WiseShopper + Artopath a pair up high, Ride Compare alone low as the
+// counterweight. Phone (x `false` = no hero icon; the card is still in the box): Lenovo + CareCost and Ride Compare above
+// the name, Artopath + WiseShopper and Asteria under the tagline. Every label keeps >= 24 px from the name, tagline, nav,
+// bear and SCROLL plate at rest (tools/verify sizes, 1024×768, 1920×1080).
+// bob = [period s, lift px, start delay s, tilt° one way, tilt° the other]: each icon floats on its own slow cycle.
+const HOT = {
+  lenovo:      ['laptop',   .15,  .10,   .12, .115, [5.2, 6, 0,   -1.2, 1.0]],
+  carecost:    ['cross',    .225, .25,   .30, .225, [6.4, 8, 1.3,  1.5, -.8]],
+  chronicle:   ['rocket',   .08,  .44,  false, null, [4.6, 5, 2.1, -.6, 1.4]],
+  asteria:     ['terminal', .14,  .60,   .89, .555, [7.0, 9, .6,   1.1, -1.3]],
+  shop:        ['compass',  .80,  .16,   .40, .655, [5.8, 7, 3.0, -1.5, .7]],
+  artopath:    ['graph',    .89,  .31,   .13, .545, [4.9, 4, 1.8,  .8, -1.6]],
+  ridecompare: ['fold',     .82,  .56,   .87, .225, [6.7, 8, .9,  -1.0, 1.2]],
+};
 
 // 2026-11-05 Austin: four more, more visible, pixel style. Placeholder slots for projects he will add later.
 // 10x10 sprites: '#' = colour A, '+' = colour B, '.' = empty. Rendered as crisp SVG rects.
@@ -38,8 +52,8 @@ const SPRITES = {
   pad:     ['..........', '.########.', '#.+......#', '#+++..#.##', '#.+..#.#.#', '#........#', '.###..###.', '..........', '..........', '..........'],
   star:    ['....#.....', '....#.....', '...#+#....', '####+####.', '.#+++++#..', '..#+++#...', '..#+.+#...', '.#+...+#..', '.#.....#..', '..........'],
 };
-const PIXEL_SLOTS = [  // [sprite, x, y(fraction of viewport), colourA idx, colourB idx]
-  ['invader', .05, .52, 3, 3], ['pad', .21, .13, 4, 2], ['star', .79, .88, 2, 1],   // heart slot (.95,.46) became Ride Compare on 2026-11-06
+const PIXEL_SLOTS = [  // [sprite, x, y (fractions of the viewport), colourA idx, colourB idx, phone x, phone y]; accents in the gaps the project icons leave (phone x `false`: not on phones)
+  ['invader', .27, .60, 3, 3, .58, .545], ['pad', .06, .30, 4, 2, .80, .115], ['star', .955, .45, 2, 1, false],
 ];
 const pixelSvg = (rows, a, b) => `<svg viewBox="0 0 10 10" shape-rendering="crispEdges" aria-hidden="true">${rows.map((r, y) => [...r].map((c, x) =>
   c === '#' ? `<rect x="${x}" y="${y}" width="1" height="1" fill="${a}"/>` : c === '+' ? `<rect x="${x}" y="${y}" width="1" height="1" fill="${b}"/>` : '').join('')).join('')}</svg>`;
@@ -75,21 +89,18 @@ export function mountIconField(el, { projects = [], colors = [], onOpen = () => 
       const hx = mobile && h[3] != null ? h[3] : h[1];
       b.className = `ico ico--hot ico--named ${hx < 0.5 ? 'ico--l' : hx > 0.5 ? 'ico--r' : 'ico--c'}`; b.type = 'button';   // named: label always on (2026-11-05); side from the x actually used (phone may differ, 2026-11-06)
       b.setAttribute('aria-label', `Open ${p.name}`);
-      const hy = mobile ? (h[4] != null ? h[4] : Math.min(Math.max(h[2], 0.2), 0.56)) : h[2];   // an explicit phone y is trusted; a desktop y is clamped (2026-11-06)   // phone: the bear's ears reach ~0.69H, keep every project icon (and its label) above them (and under the nav pill)
+      const hy = mobile && h[4] != null ? h[4] : h[2];
       Object.assign(b.style, { left: `calc(${hx * 100}% - ${s / 2}px)`, top: `${hy * H}px`, width: s + 'px', height: s + 'px', color: colors[j % colors.length] || 'currentColor' });
       b.innerHTML = svg(h[0], 1.8) + `<span class="ico__label">${p.name}</span>`;
+      const [bt, ba, bd, r0, r1] = h[5];
+      Object.entries({ '--bob-t': `${bt}s`, '--bob-a': `${-ba}px`, '--bob-d': `${bd}s`, '--bob-r0': `${r0}deg`, '--bob-r1': `${r1}deg` }).forEach(([k, v]) => b.style.setProperty(k, v));
       b.addEventListener('click', () => onOpen(p.id));
       layer.appendChild(b); hots.push(b);
-      // 2026-11-09: short desktop screens (1280×720) leave no room for the top-centre icon + label between the nav and the
-      // big name; there it drops into the gap under the tagline (above the riders), as on phones
-      if (!mobile && hx === 0.5) {
-        const nm = document.getElementById('hero-name'), tg = document.getElementById('hero-tagline');
-        const lb = b.querySelector('.ico__label').getBoundingClientRect().bottom;
-        if (nm && tg && lb > nm.getBoundingClientRect().top + 0.1 * parseFloat(getComputedStyle(nm).fontSize)) b.style.top = `${tg.getBoundingClientRect().bottom + 14}px`;   // cap tops sit ~0.1 em under the name's line box
-      }
     });
     // pixel slots (more visible; label says more projects are coming)
-    PIXEL_SLOTS.forEach(([name, fx, fy, ca, cb]) => {
+    PIXEL_SLOTS.forEach(([name, dx, dy, ca, cb, px, py]) => {
+      if (mobile && px === false) return;
+      const fx = mobile && px != null ? px : dx, fy = mobile && py != null ? py : dy;
       const b = document.createElement('button');
       b.className = 'ico ico--hot ico--pixel'; b.type = 'button';
       b.setAttribute('aria-label', 'More projects coming soon');

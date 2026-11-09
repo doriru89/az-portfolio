@@ -58,7 +58,7 @@ async def main() -> int:
             await page.screenshot(path=os.path.join(OUT, f"{tag}-hero.png"))
             icon = await page.query_selector(".ico--named")
             if icon:
-                await icon.click()
+                await icon.click(force=True)   # the project icons bob forever, so they never count as 'stable'
                 await page.wait_for_timeout(3000)
                 await page.screenshot(path=os.path.join(OUT, f"{tag}-box.png"))
             await page.mouse.wheel(0, 30000)
