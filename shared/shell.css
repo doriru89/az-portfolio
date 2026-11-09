@@ -52,9 +52,9 @@ body.docked #bear-home { pointer-events:auto; cursor:pointer; }
 .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
 /* ── hero ── */
 #hero { position:relative; z-index:5; height:100vh; height:100svh; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  text-align:center; opacity:0; pointer-events:none; padding-bottom:22vh; }
+  text-align:center; opacity:0; pointer-events:none; padding-bottom:calc(22vh - 58px); }   /* -58px: the tagline wraps to 3 lines; keeps the name where the hero icons expect it */
 #hero-name { font-weight:800; font-size:clamp(4rem,12vw,10rem); line-height:.9; letter-spacing:-.03em; color:var(--ink); will-change:transform,opacity; }
-#hero-tagline { margin-top:.9rem; font-size:clamp(.95rem,1.8vw,1.25rem); font-weight:500; letter-spacing:.04em; color:var(--gold-deep); will-change:transform,opacity; }
+#hero-tagline { margin-top:.9rem; max-width:36em; padding:0 16px; font-size:clamp(.95rem,1.8vw,1.25rem); line-height:1.45; text-wrap:balance; font-weight:500; letter-spacing:.02em; color:var(--gold-deep); will-change:transform,opacity; }
 
 /* ── projects ── */
 #projects { position:relative; z-index:5; padding-top:4vh; }
@@ -132,6 +132,7 @@ body.docked #bear-home { pointer-events:auto; cursor:pointer; }
   .top-nav__logo { font-size:.85rem; }
   .top-nav__link { font-size:.85rem; }
   #hero { padding-bottom:18vh; }
+  #hero-tagline { font-size:.85rem; line-height:1.4; }
   body.docked .top-nav__logo { display:none; }
   .contact__inner { grid-template-columns:1fr; padding-top:64px; }
   .contact__links { justify-self:stretch; align-items:stretch; gap:14px; }

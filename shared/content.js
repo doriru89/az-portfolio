@@ -7,9 +7,9 @@
 // Every number traces to a source listed in ../CONTENT-NOTES.md; do not add numbers without one.
 export const PROFILE = {
   name: 'Austin Zheng',
-  tagline: 'I put AI into the work people already do.',
+  tagline: 'I design AI workflows where every answer is clear at a glance and traceable to its source, so people can check it, correct it, and keep thinking.',
   headline: 'Product lead for AI tools inside real workflows. I research the users, win the budget, ship it, and build the prototypes myself with AI agents.',
-  role: 'AI Product · AI Ops · Internal platforms',
+  role: 'AI Product · Enterprise Workflows · Human-in-the-loop · Yale SOM ’26',
   location: 'Boston, MA',
   email: 'aozuozheng@gmail.com',
   links: [
