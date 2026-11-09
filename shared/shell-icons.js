@@ -30,18 +30,20 @@ export const ICONS = {
 // Hand-placed, asymmetric (ikebana, not an orbit; 2026-11-09 Austin): four on the left, three on the right, the weight a
 // little up and to the left. Left: Lenovo + CareCost a pair stepping down from beside the nav, Chronicle alone at
 // mid-height, Asteria alone low by the hill. Right: WiseShopper + Artopath a pair up high, Ride Compare alone low as the
-// counterweight. Phone (x `false` = no hero icon; the card is still in the box): Lenovo + CareCost and Ride Compare above
-// the name, Artopath + WiseShopper and Asteria under the tagline. Every label keeps >= 24 px from the name, tagline, nav,
-// bear and SCROLL plate at rest (tools/verify sizes, 1024×768, 1920×1080).
+// counterweight. Phone (x `false` = no hero icon; the card is still in the box; small tags, 2026-11-09): above the name
+// Lenovo + CareCost a pair stepping down on the left, Ride Compare with the pad sprite on the right; under the tagline
+// Artopath with the invader below it on the left, WiseShopper alone a step lower, Asteria alone on the right. Every label
+// keeps >= 24 px from the name, tagline, nav, bear and SCROLL plate at rest (tools/verify sizes, 1024×768, 1920×1080;
+// phones 375×667, 390×844, 430×932).
 // bob = [period s, lift px, start delay s, tilt° one way, tilt° the other]: each icon floats on its own slow cycle.
 const HOT = {
-  lenovo:      ['laptop',   .15,  .10,   .12, .115, [5.2, 6, 0,   -1.2, 1.0]],
-  carecost:    ['cross',    .225, .25,   .30, .225, [6.4, 8, 1.3,  1.5, -.8]],
+  lenovo:      ['laptop',   .15,  .10,   .11, .138, [5.2, 6, 0,   -1.2, 1.0]],
+  carecost:    ['cross',    .225, .25,   .36, .255,[6.4, 8, 1.3,  1.5, -.8]],
   chronicle:   ['rocket',   .08,  .44,  false, null, [4.6, 5, 2.1, -.6, 1.4]],
-  asteria:     ['terminal', .14,  .60,   .89, .555, [7.0, 9, .6,   1.1, -1.3]],
-  shop:        ['compass',  .80,  .16,   .40, .655, [5.8, 7, 3.0, -1.5, .7]],
-  artopath:    ['graph',    .89,  .31,   .13, .545, [4.9, 4, 1.8,  .8, -1.6]],
-  ridecompare: ['fold',     .82,  .56,   .87, .225, [6.7, 8, .9,  -1.0, 1.2]],
+  asteria:     ['terminal', .14,  .60,   .86, .585, [7.0, 9, .6,   1.1, -1.3]],
+  shop:        ['compass',  .80,  .16,   .44, .615, [5.8, 7, 3.0, -1.5, .7]],
+  artopath:    ['graph',    .89,  .31,   .13, .575, [4.9, 4, 1.8,  .8, -1.6]],
+  ridecompare: ['fold',     .82,  .56,   .86, .225, [6.7, 8, .9,  -1.0, 1.2]],
 };
 
 // 2026-11-05 Austin: four more, more visible, pixel style. Placeholder slots for projects he will add later.
@@ -53,7 +55,7 @@ const SPRITES = {
   star:    ['....#.....', '....#.....', '...#+#....', '####+####.', '.#+++++#..', '..#+++#...', '..#+.+#...', '.#+...+#..', '.#.....#..', '..........'],
 };
 const PIXEL_SLOTS = [  // [sprite, x, y (fractions of the viewport), colourA idx, colourB idx, phone x, phone y]; accents in the gaps the project icons leave (phone x `false`: not on phones)
-  ['invader', .27, .60, 3, 3, .58, .545], ['pad', .06, .30, 4, 2, .80, .115], ['star', .955, .45, 2, 1, false],
+  ['invader', .27, .60, 3, 3, .10, .68], ['pad', .06, .30, 4, 2, .88, .135], ['star', .955, .45, 2, 1, false],
 ];
 const pixelSvg = (rows, a, b) => `<svg viewBox="0 0 10 10" shape-rendering="crispEdges" aria-hidden="true">${rows.map((r, y) => [...r].map((c, x) =>
   c === '#' ? `<rect x="${x}" y="${y}" width="1" height="1" fill="${a}"/>` : c === '+' ? `<rect x="${x}" y="${y}" width="1" height="1" fill="${b}"/>` : '').join('')).join('')}</svg>`;
@@ -85,7 +87,7 @@ export function mountIconField(el, { projects = [], colors = [], onOpen = () => 
       const h = HOT[p.id]; if (!h) return;
       if (mobile && h[3] === false) return;   // phone x `false`: no hero icon on phones (the card is still in the box); seven labels do not fit beside the name (2026-11-06)
       const b = document.createElement('button');
-      const s = mobile ? 30 : 40;
+      const s = mobile ? 22 : 40;
       const hx = mobile && h[3] != null ? h[3] : h[1];
       b.className = `ico ico--hot ico--named ${hx < 0.5 ? 'ico--l' : hx > 0.5 ? 'ico--r' : 'ico--c'}`; b.type = 'button';   // named: label always on (2026-11-05); side from the x actually used (phone may differ, 2026-11-06)
       b.setAttribute('aria-label', `Open ${p.name}`);
@@ -93,7 +95,7 @@ export function mountIconField(el, { projects = [], colors = [], onOpen = () => 
       Object.assign(b.style, { left: `calc(${hx * 100}% - ${s / 2}px)`, top: `${hy * H}px`, width: s + 'px', height: s + 'px', color: colors[j % colors.length] || 'currentColor' });
       b.innerHTML = svg(h[0], 1.8) + `<span class="ico__label">${p.name}</span>`;
       const [bt, ba, bd, r0, r1] = h[5];
-      Object.entries({ '--bob-t': `${bt}s`, '--bob-a': `${-ba}px`, '--bob-d': `${bd}s`, '--bob-r0': `${r0}deg`, '--bob-r1': `${r1}deg` }).forEach(([k, v]) => b.style.setProperty(k, v));
+      Object.entries({ '--bob-t': `${bt}s`, '--bob-a': `${-ba * (mobile ? .6 : 1)}px`, '--bob-d': `${bd}s`, '--bob-r0': `${r0}deg`, '--bob-r1': `${r1}deg` }).forEach(([k, v]) => b.style.setProperty(k, v));
       b.addEventListener('click', () => onOpen(p.id));
       layer.appendChild(b); hots.push(b);
     });
@@ -104,7 +106,7 @@ export function mountIconField(el, { projects = [], colors = [], onOpen = () => 
       const b = document.createElement('button');
       b.className = 'ico ico--hot ico--pixel'; b.type = 'button';
       b.setAttribute('aria-label', 'More projects coming soon');
-      const s = mobile ? 34 : 46;
+      const s = mobile ? 26 : 46;
       Object.assign(b.style, { left: `calc(${fx * 100}% - ${s / 2}px)`, top: `${fy * H}px`, width: s + 'px', height: s + 'px' });
       b.innerHTML = pixelSvg(SPRITES[name], colors[ca] || '#1e0f3c', colors[cb] || '#1e0f3c') + '<span class="ico__label">More soon ✦</span>';
       b.addEventListener('click', () => onOpen(null));   // no project yet: open the reel from the start

@@ -116,7 +116,9 @@ body.docked #bear-home { pointer-events:auto; cursor:pointer; }
 .ico--named:hover::before { animation-duration:1s; opacity:.9; }
 @keyframes icoRing { to { transform:rotate(360deg); } }
 @media (max-width:640px) {
-  .ico--named .ico__label { font-size:7px; padding:6px 7px 5px; }
+  /* 2026-11-09 Austin: phone type too big; tags ~72% so they read as small tags around the name, not buttons */
+  .ico--named .ico__label { top:calc(100% + 6px); font-size:5px; padding:4px 5px 3px; border-width:1.5px; box-shadow:0 0 0 1.5px var(--ink), 2px 2px 0 1.5px rgba(30,15,60,.25); }
+  .ico--named::before { inset:-6.5px; border-width:1.5px; }
   .ico--named.ico--l .ico__label { left:0; transform:none; }
   .ico--named.ico--r .ico__label { left:auto; right:0; transform:none; }
 }
@@ -136,7 +138,9 @@ body.opened .ico--named { animation:icoBob var(--bob-t, 5s) ease-in-out var(--bo
   .top-nav__links { gap:1.1rem; }
   .top-nav__logo { font-size:.85rem; }
   .top-nav__link { font-size:.85rem; }
-  #hero { padding-bottom:18vh; }
+  #hero { padding-bottom:12vh; }   /* 2026-11-09: name a little lower so the smaller tags get two staggered rows above it */
+  #hero-name { font-size:3.1rem; }   /* 2026-11-09 Austin: still the hero, no longer dominating (was 4rem) */
+  #hero-tagline { margin-top:.75rem; font-size:.8125rem; }
   body.docked .top-nav__logo { display:none; }
   .contact__inner { grid-template-columns:1fr; padding-top:64px; }
   .contact__links { justify-self:stretch; align-items:stretch; gap:14px; }
