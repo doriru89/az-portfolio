@@ -126,7 +126,6 @@ export function createBearDock({ THREE, camera, pivot, rig, gsap, reducedMotion,
     heroText.name.style.opacity = String(1 - t);
     heroText.tagline.style.transform = `translateY(${-t * 36}px)`;
     heroText.tagline.style.opacity = String(1 - clamp01(u / 0.35));
-    if (heroText.eyebrow) { heroText.eyebrow.style.transform = `translateY(${-t * 60}px)`; heroText.eyebrow.style.opacity = String(1 - clamp01(u / 0.35)); }
     const sOp = clamp01((u - 0.55) / 0.35);
     seat.style.opacity = String(sOp);
     seat.style.transform = `scale(${0.6 + 0.4 * easeOut(sOp)})`;

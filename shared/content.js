@@ -1,5 +1,6 @@
 // Content — CONTRACT (owned by the content agent; keep the export shape stable).
-//   PROFILE = { name, tagline, email, links: [{label, href}] }  (+ optional: headline, role, location)
+//   PROFILE = { name, tagline, email, links: [{label, href}] }  (+ optional: headline, lead[], role, location)
+//   headline + lead[] print on the Profile Box's leader card
 //   PROJECTS = [{ id, name, kicker, title, impact, description, details[], tech[], image, demoUrl|null }]
 //              (+ optional: year, role, imageNote)
 //   image paths are relative to mockups/ (e.g. 'assets/screens/lenovo.jpg').
@@ -7,9 +8,13 @@
 // Every number traces to a source listed in ../CONTENT-NOTES.md; do not add numbers without one.
 export const PROFILE = {
   name: 'Austin Zheng',
-  tagline: 'I design AI workflows where every answer is clear at a glance and traceable to its source, so people can check it, correct it, and keep thinking.',
-  headline: 'Product lead for AI tools inside real workflows. I research the users, win the budget, ship it, and build the prototypes myself with AI agents.',
-  role: 'AI Product · Enterprise Workflows · Human-in-the-loop · Yale SOM ’26',
+  tagline: 'I design AI that sharpens people’s judgment.',
+  headline: 'I use AI to make work a little more fun, more accessible, and more human.',
+  lead: [
+    'AI takes the repetitive work; people stay in the pilot seat.',
+    'I make information clear at a glance and traceable to its source, so people can check it, correct it, and keep thinking.',
+  ],
+  role: 'AI Product · AI Ops · Internal platforms',
   location: 'Boston, MA',
   email: 'aozuozheng@gmail.com',
   links: [

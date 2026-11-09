@@ -1,5 +1,6 @@
 // Projector — CONTRACT (owned by the projector agent; keep the export shape stable).
-//   mountProjector(container, projects, { THREE }) -> { destroy() }
+//   mountProjector(container, projects, { THREE, profile }) -> { destroy() }
+//   profile (optional): PROFILE from content.js; the leader card prints profile.headline, then profile.lead[]
 //
 // A walnut split-flap "AZ Profile Box" (after the 六周年 flipbook): every project is a reel —
 // one chapter card (name, kicker, impact, details) then one page per screenshot (image +
@@ -31,8 +32,8 @@ const pad2 = n => String(n).padStart(2, '0');
 const esc = s => str(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 // ---------- deck: leader, per project (chapter + pages), end ----------
-function buildDeck(projects) {
-  const deck = [{ kind: 'leader' }];
+function buildDeck(projects, profile) {
+  const deck = [{ kind: 'leader', profile: profile || {} }];
   arr(projects).forEach((p, i) => {
     if (!p) return;
     const color = ATARI[i % ATARI.length], reel = i + 1;
@@ -145,19 +146,36 @@ function drawLeader(g, W, H, c) {
   g.fillStyle = HOUSE; g.fillRect(0, 0, W, H);
   const vg = g.createRadialGradient(W / 2, H / 2, H * 0.1, W / 2, H / 2, W * 0.7);
   vg.addColorStop(0, '#2c1a3c'); vg.addColorStop(1, '#120a18'); g.fillStyle = vg; g.fillRect(0, 0, W, H);
-  // Academy-leader crosshair + rings
-  g.strokeStyle = 'rgba(212,160,66,0.28)'; g.lineWidth = 2;
+  // Academy-leader crosshair + rings (faint: the brand copy sits on top of them)
+  g.strokeStyle = 'rgba(212,160,66,0.13)'; g.lineWidth = 2;
   g.beginPath(); g.moveTo(0, H / 2); g.lineTo(W, H / 2); g.moveTo(W / 2, 0); g.lineTo(W / 2, H); g.stroke();
   for (const r of [0.30, 0.36]) { g.beginPath(); g.arc(W / 2, H / 2, H * r, 0, Math.PI * 2); g.stroke(); }
   g.textAlign = 'center'; g.textBaseline = 'alphabetic';
-  g.fillStyle = GOLD; g.font = `400 ${W * 0.018}px ${PIX}`; g.fillText('AUSTIN ZHENG PRESENTS', W / 2, H * 0.33);
-  g.fillStyle = PEACH; g.font = `700 ${W * 0.105}px ${SG}`; g.fillText('Selected Work', W / 2, H * 0.535);
-  g.fillStyle = 'rgba(255,241,235,0.7)'; g.font = `500 ${W * 0.026}px ${MONO}`;
-  g.fillText(`${c.reels} PROJECTS  ·  ${c.N} FRAMES`, W / 2, H * 0.63);   // 2026-11-05 Austin: say 'projects', HR does not count reels
+  g.fillStyle = GOLD; g.font = `400 ${W * 0.018}px ${PIX}`; g.fillText('AUSTIN ZHENG PRESENTS', W / 2, H * 0.11);
+  g.fillStyle = PEACH; g.font = `700 ${W * 0.06}px ${SG}`; g.fillText('Selected Work', W / 2, H * 0.205);
+  g.fillStyle = 'rgba(255,241,235,0.6)'; g.font = `500 ${W * 0.022}px ${MONO}`;
+  g.fillText(`${c.reels} PROJECTS  ·  ${c.N} FRAMES`, W / 2, H * 0.26);   // 2026-11-05 Austin: say 'projects', HR does not count reels
+  // 2026-11-09 Austin: the brand line, then how (PROFILE.headline, PROFILE.lead[])
+  const pr = c.profile || {}, maxW = W * 0.86;
+  let y = H * 0.38;
+  if (pr.headline) {
+    const hd = fit(g, str(pr.headline), 700, SG, W * 0.042, W * 0.034, maxW, 2);
+    g.fillStyle = PEACH;
+    hd.lines.forEach((l, k) => g.fillText(l, W / 2, y + k * hd.size * 1.22));
+    y += (hd.lines.length - 1) * hd.size * 1.22 + W * 0.04;
+    g.fillStyle = GOLD; g.fillRect(W / 2 - W * 0.03, y - W * 0.012, W * 0.06, 4);
+    y += W * 0.045;
+  }
+  for (const t of arr(pr.lead)) {
+    const ld = fit(g, str(t), 400, SG, W * 0.029, W * 0.026, maxW, 3);
+    g.fillStyle = 'rgba(255,241,235,0.82)';
+    ld.lines.forEach((l, k) => g.fillText(l, W / 2, y + k * ld.size * 1.3));
+    y += ld.lines.length * ld.size * 1.3 + W * 0.018;
+  }
   // 2026-11-05 Austin: no stripes under the title; the instruction is big, pixel-font, with a pixel chevron — people must know what to do
-  g.fillStyle = GOLD; g.font = `400 ${W * 0.026}px ${PIX}`;
-  g.fillText('SCROLL TO TURN THE CRANK', W / 2, H * 0.85);
-  const u = W * 0.006, cx = W / 2, cy = H * 0.9;          // 11×6 pixel "V"
+  g.fillStyle = GOLD; g.font = `400 ${W * 0.024}px ${PIX}`;
+  g.fillText('SCROLL TO TURN THE CRANK', W / 2, H * 0.875);
+  const u = W * 0.006, cx = W / 2, cy = H * 0.905;          // 11×6 pixel "V"
   for (let k = 0; k < 6; k++) { g.fillRect(cx + (k - 5.5) * u, cy + k * u, u, u); g.fillRect(cx + (4.5 - k) * u, cy + k * u, u, u); }
   frameMark(g, W, c, true);
 }
@@ -261,9 +279,9 @@ function drawEnd(g, W, H, c) {
 }
 
 // ---------- mount ----------
-export function mountProjector(container, projects, { THREE } = {}) {
+export function mountProjector(container, projects, { THREE, profile } = {}) {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const deck = buildDeck(projects);
+  const deck = buildDeck(projects, profile);
   const N = deck.length;
   if (reduced || !THREE || !deck.some(c => c.kind !== 'leader' && c.kind !== 'end')) return mountList(container, projects);
   const hasGL = (() => { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch { return false; } })();

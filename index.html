@@ -44,7 +44,7 @@
   </nav>
 
   <main>
-    <section id="hero"><p id="hero-eyebrow"></p><h1 id="hero-name">AUSTIN <br>ZHENG</h1><p id="hero-tagline"></p></section>
+    <section id="hero"><h1 id="hero-name">AUSTIN<br>ZHENG</h1><p id="hero-tagline"></p></section>
     <section id="projects">
       <header class="section-head">
         <p class="section-head__kicker">SELECTED WORK</p>
@@ -90,7 +90,6 @@ const $ = id => document.getElementById(id);
 
 // ── content into the shell ──
 $('hero-tagline').textContent = PROFILE.tagline;
-$('hero-eyebrow').textContent = PROFILE.role || '';
 const resume = PROFILE.links.find(l => /resume|cv/i.test(l.label));
 if (resume) $('nav-resume').href = resume.href; else $('nav-resume').remove();
 $('contact-email').textContent = PROFILE.email; $('contact-email').href = `mailto:${PROFILE.email}`;
@@ -109,7 +108,7 @@ addBearLights(THREE, scene);
 const rig = createBearRig(THREE, { riderScale: 0.52 /* 2026-11-05: head +20% on screen, riders -20% on screen → 0.78*0.8/1.2 */ });
 const pivot = new THREE.Group(); pivot.name = 'shell-pivot';   // shell-owned: flight tilt/squash, never touched by the rig
 pivot.add(rig.group); scene.add(pivot);
-const hero = { root: $('hero'), eyebrow: $('hero-eyebrow'), name: $('hero-name'), tagline: $('hero-tagline') };
+const hero = { root: $('hero'), name: $('hero-name'), tagline: $('hero-tagline') };
 const seat = $('bear-home');
 const dock = createBearDock({ THREE, camera, pivot, rig, gsap, reducedMotion, canvas, seat, heroText: hero });
 let live = false;   // true once the opening is done: the dock drives the camera every frame
@@ -143,7 +142,7 @@ renderer.setAnimationLoop(now => {
 //   gsap, THREE, palette {ATARI, UI}, reducedMotion
 //   stage            full-screen fixed layer above everything (z 100)
 //   intro()          shared intro (~1.3s, INTRO_END in shared/intro.js); resolves {root, ribbons}
-//   hero             DOM: root / eyebrow / name / tagline (start at opacity 0)
+//   hero             DOM: root / name / tagline (start at opacity 0)
 //   bear             { rig, scene, camera, renderer, canvas } — canvas starts at opacity 0.
 //                    NOTE: rig.group is parented to a shell pivot group (scene > pivot > rig.group). The camera is
 //                    already in the hero framing (camera.setViewOffset — keep aspect = innerWidth/innerHeight and
@@ -194,7 +193,7 @@ ctx.showNav();                              // no-op if the opening already star
 document.body.classList.add('opened');      // scroll cue keys off this, not nav-on, so an early nav doesn't bring the cue early
 document.getElementById('scroll-cue').addEventListener('click', () => scrollTo({ top: innerHeight, behavior: reducedMotion ? 'auto' : 'smooth' }));
 live = true;
-mountProjector($('projector-mount'), PROJECTS, { THREE });
+mountProjector($('projector-mount'), PROJECTS, { THREE, profile: PROFILE });
 // the opening always ends on the hero: the body was overflow:hidden the whole time, so any scroll offset here is a
 // restored one (reload / bfcache), never the reader's — throw it away before the ScrollTrigger below can see it
 scrollTo(0, 0); requestAnimationFrame(() => scrollTo(0, 0));

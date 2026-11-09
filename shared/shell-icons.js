@@ -80,6 +80,13 @@ export function mountIconField(el, { projects = [], colors = [], onOpen = () => 
       b.innerHTML = svg(h[0], 1.8) + `<span class="ico__label">${p.name}</span>`;
       b.addEventListener('click', () => onOpen(p.id));
       layer.appendChild(b); hots.push(b);
+      // 2026-11-09: short desktop screens (1280×720) leave no room for the top-centre icon + label between the nav and the
+      // big name; there it drops into the gap under the tagline (above the riders), as on phones
+      if (!mobile && hx === 0.5) {
+        const nm = document.getElementById('hero-name'), tg = document.getElementById('hero-tagline');
+        const lb = b.querySelector('.ico__label').getBoundingClientRect().bottom;
+        if (nm && tg && lb > nm.getBoundingClientRect().top + 0.1 * parseFloat(getComputedStyle(nm).fontSize)) b.style.top = `${tg.getBoundingClientRect().bottom + 14}px`;   // cap tops sit ~0.1 em under the name's line box
+      }
     });
     // pixel slots (more visible; label says more projects are coming)
     PIXEL_SLOTS.forEach(([name, fx, fy, ca, cb]) => {

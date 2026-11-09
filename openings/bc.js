@@ -292,7 +292,6 @@ function heroTextCanvas(hero, w, h, pr, rainbow = null) {
   };
   drawWords(hero.name, rainbow);
   drawWords(hero.tagline, null);
-  if (hero.eyebrow) drawWords(hero.eyebrow, null);
   return c;
 }
 function iconCanvas(w, h, pr, icons) {

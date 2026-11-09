@@ -4,7 +4,7 @@ All copy lives in `shared/content.js`. This file records where it comes from and
 
 ## Positioning
 
-Tagline: **"I design AI workflows where every answer is clear at a glance and traceable to its source, so people can check it, correct it, and keep thinking."** (Austin, 2026-11-08; the lever under the evidence: Sales Buddy's plain-language reasons, Artopath's source labels, CareCost's sourced prices.) The enterprise evidence is Lenovo (research → budget → launch → adoption); the personal evidence is CareCost, Artopath, WiseShopper and Ride Compare (built end to end with AI tooling); Asteria is the agent-governance story (what runs alone, what needs a human signature).
+Tagline: **"I design AI that sharpens people’s judgment."** Leader card (Profile Box, first card; `PROFILE.headline` then `PROFILE.lead`): **"I use AI to make work a little more fun, more accessible, and more human."** / "AI takes the repetitive work; people stay in the pilot seat." / "I make information clear at a glance and traceable to its source, so people can check it, correct it, and keep thinking." (Austin, 2026-11-09; the lever under the evidence: Sales Buddy's plain-language reasons, Artopath's source labels, CareCost's sourced prices.) The enterprise evidence is Lenovo (research → budget → launch → adoption); the personal evidence is CareCost, Artopath, WiseShopper and Ride Compare (built end to end with AI tooling); Asteria is the agent-governance story (what runs alone, what needs a human signature).
 
 ## Cards, in order
 
