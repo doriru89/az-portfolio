@@ -51,7 +51,7 @@ export const PROJECTS = [
     ],
     tech: ['Python', 'FastAPI', 'React', 'PostgreSQL'],
     year: '2026', role: 'Co-founder & product engineer',
-    image: 'assets/screens/carecost.jpg', demoUrl: 'https://github.com/doriru89/Carecost' },
+    image: 'assets/screens/carecost.jpg', demoUrl: 'https://doriru89.github.io/Carecost/start' },
 
   { id: 'asteria', name: 'Asteria', kicker: 'Personal AI workbench',
     title: 'An operating system where agents do the volume and I sign the decisions',
@@ -123,5 +123,5 @@ export const PROJECTS = [
     ],
     tech: ['Django', 'PostgreSQL', 'TMDb + Wikidata', 'Mapbox'],
     year: '2025–', role: 'Creator & product engineer',
-    image: 'assets/screens/artopath.jpg', demoUrl: null },
+    image: 'assets/screens/artopath.jpg', demoUrl: 'https://doriru89.github.io/artopath/' },
 ];

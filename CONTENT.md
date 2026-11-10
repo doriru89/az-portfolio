@@ -11,12 +11,12 @@ Tagline: **"I design AI that sharpens people’s judgment."** Leader card (Profi
 | Card | Kind of evidence | Image | Link | Upstream repo · licence |
 |---|---|---|---|---|
 | Lenovo Seller Platform | employer work, internal platform | schematic (`src/lenovo.html`) | none, on purpose | — |
-| CareCost | hackathon win, public repo | real screenshot (no patient or doctor names) | GitHub repo | `doriru89/Carecost` · no licence file |
+| CareCost | hackathon win, public repo | real screenshot (no patient or doctor names) | live demo `doriru89.github.io/Carecost/start` (repo `doriru89/Carecost`) · no licence file |
 | Asteria | personal agent workbench (harness on Claude Code) | schematic (`src/asteria.html`) | public shell + demo at doriru89.github.io/asteria | `doriru89/asteria` · MIT |
 | Chronicle | Asteria's visual layer: every AI coding session as a quest; its own card on purpose (Austin, 2026-11-06) | screenshot of the public page (fictional data) | doriru89.github.io/asteria/chronicle.html | `doriru89/asteria` · MIT |
 | WiseShopper | open-source Claude Code skill (`/shop`) | screenshot of the public demo | live demo at doriru89.github.io/wiseshopper/demo/shop-workflow.html (Pages enabled 2026-11-06) | `doriru89/wiseshopper` (was `shop-skill`; GitHub redirects) · MIT |
 | Ride Compare | Android utility, public repo | schematic (`src/ridecompare.html`) | GitHub repo | `doriru89/ride-compare` · MIT |
-| Artopath | personal media library | real screenshot | none (repo private) | private |
+| Artopath | personal media library | real screenshot | live demo `doriru89.github.io/artopath/` (API on Cloud Run) | public (`doriru89/artopath`) |
 
 ## When an upstream repo changes
 

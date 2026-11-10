@@ -173,6 +173,10 @@ window.__shell = { dock, ctx };  // debug / automated screenshots
 // with the bear, then the DOM icons take over in the same place.
 let targetedAt = -1e9;   // an icon click owns the scroll for a moment; autoAdvance must not override it
 function openProject(pid) {
+  // 2026-11-10 Austin: a hero icon opens the project itself (Asteria's page, CareCost/Artopath production) in a new tab;
+  // only a project without a public demo (Lenovo) or the "more soon" slots fall back to its card in the projector
+  const url = PROJECTS.find(p => p.id === pid)?.demoUrl;
+  if (url) { window.open(url, '_blank', 'noopener'); return; }
   targetedAt = performance.now();
   // the projector takes this (preventDefault) and cranks straight to the project's chapter card; otherwise just scroll there
   const taken = !window.dispatchEvent(new CustomEvent('portfolio:open-project', { detail: { id: pid }, cancelable: true }));
