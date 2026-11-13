@@ -18,8 +18,7 @@ export const PROFILE = {
   location: 'Boston, MA',
   email: 'aozuozheng@gmail.com',
   links: [
-    { label: 'Resume', href: 'https://www.linkedin.com/in/aozuozheng/' }, // 2026-11-12 Austin: Resume opens LinkedIn
-    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/aozuozheng' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/aozuozheng/' },   // 2026-11-12 Austin: no Resume button; LinkedIn takes its place
     { label: 'GitHub', href: 'https://github.com/doriru89' },
   ],
 };

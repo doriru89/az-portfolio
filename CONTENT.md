@@ -38,5 +38,5 @@ The cards are copies, not views: nothing updates them. After a push to `asteria`
 
 ## Open
 
-- Resume link (`PROFILE.links`) opens LinkedIn (Austin 2026-11-12); the hero name opens GitHub.
+- No Resume button: LinkedIn takes its place in the nav and as the gold footer button (Austin 2026-11-12); the hero name opens GitHub.
 - CareCost: a hosted demo would beat the repo link.

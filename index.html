@@ -38,7 +38,7 @@
       <div class="top-nav__links">
         <a href="#projects" class="top-nav__link" data-nav="projects">Projects</a>
         <a href="#" class="top-nav__link" id="nav-email">Email</a>
-        <a href="#" class="top-nav__link" id="nav-resume" target="_blank" rel="noopener">Resume<span class="ext">↗</span></a>
+        <a href="#" class="top-nav__link" id="nav-linkedin" target="_blank" rel="noopener">LinkedIn<span class="ext">↗</span></a>
       </div>
     </div>
   </nav>
@@ -64,7 +64,7 @@
         <p class="contact__lead">AI in the work, people in the pilot seat.</p>
         <a class="contact__email" id="contact-email" href="#"></a>
       </div>
-      <ul class="contact__links" id="contact-links" aria-label="Resume and profiles"></ul>
+      <ul class="contact__links" id="contact-links" aria-label="Profiles"></ul>
     </div>
     <div class="contact__base"><span id="contact-name"></span><span>Made with a bear, two cats and a rabbit.</span></div>
   </footer>
@@ -91,11 +91,11 @@ const $ = id => document.getElementById(id);
 // ── content into the shell ──
 $('hero-tagline').textContent = PROFILE.tagline;
 $('hero-name-link').href = PROFILE.links.find(l => l.label === 'GitHub').href;   // 2026-11-12 Austin: the name opens GitHub
-const resume = PROFILE.links.find(l => /resume|cv/i.test(l.label));
-if (resume) $('nav-resume').href = resume.href; else $('nav-resume').remove();
+const linkedin = PROFILE.links.find(l => l.label === 'LinkedIn');   // 2026-11-12 Austin: LinkedIn replaces Resume (nav + gold footer button)
+if (linkedin) $('nav-linkedin').href = linkedin.href; else $('nav-linkedin').remove();
 $('contact-email').textContent = PROFILE.email; $('contact-email').href = `mailto:${PROFILE.email}`;
 $('nav-email').href = `mailto:${PROFILE.email}`;          // one click to write, from anywhere on the page
-$('contact-links').innerHTML = PROFILE.links.map(l => `<li><a href="${l.href}" target="_blank" rel="noopener" class="${/resume|cv/i.test(l.label) ? 'is-primary' : ''}">${/resume|cv/i.test(l.label) ? '▶ ' : ''}${l.label}</a></li>`).join('');
+$('contact-links').innerHTML = PROFILE.links.map(l => `<li><a href="${l.href}" target="_blank" rel="noopener" class="${l === linkedin ? 'is-primary' : ''}">${l === linkedin ? '▶ ' : ''}${l.label}</a></li>`).join('');
 $('contact-name').textContent = `© ${new Date().getFullYear()} ${PROFILE.name}`;
 
 // ── bear scene ──
