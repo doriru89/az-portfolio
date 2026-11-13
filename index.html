@@ -93,8 +93,10 @@ $('hero-tagline').textContent = PROFILE.tagline;
 $('hero-name-link').href = PROFILE.links.find(l => l.label === 'GitHub').href;   // 2026-11-12 Austin: the name opens GitHub
 const linkedin = PROFILE.links.find(l => l.label === 'LinkedIn');   // 2026-11-12 Austin: LinkedIn replaces Resume (nav + gold footer button)
 if (linkedin) $('nav-linkedin').href = linkedin.href; else $('nav-linkedin').remove();
-$('contact-email').textContent = PROFILE.email; $('contact-email').href = `mailto:${PROFILE.email}`;
-$('nav-email').href = `mailto:${PROFILE.email}`;          // one click to write, from anywhere on the page
+// 2026-11-12 Austin: mailto did nothing without a mail app set up — Email opens Gmail compose in a new tab instead
+const gmail = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(PROFILE.email)}`;
+$('contact-email').textContent = PROFILE.email;
+for (const id of ['contact-email', 'nav-email']) Object.assign($(id), { href: gmail, target: '_blank', rel: 'noopener' });
 $('contact-links').innerHTML = PROFILE.links.map(l => `<li><a href="${l.href}" target="_blank" rel="noopener" class="${l === linkedin ? 'is-primary' : ''}">${l === linkedin ? '▶ ' : ''}${l.label}</a></li>`).join('');
 $('contact-name').textContent = `© ${new Date().getFullYear()} ${PROFILE.name}`;
 
