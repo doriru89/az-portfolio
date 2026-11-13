@@ -44,7 +44,7 @@
   </nav>
 
   <main>
-    <section id="hero"><h1 id="hero-name">AUSTIN<br>ZHENG</h1><p id="hero-tagline"></p></section>
+    <section id="hero"><h1 id="hero-name"><a id="hero-name-link" href="#" target="_blank" rel="noopener">AUSTIN<br>ZHENG</a></h1><p id="hero-tagline"></p></section>
     <section id="projects">
       <header class="section-head">
         <p class="section-head__kicker">SELECTED WORK</p>
@@ -90,6 +90,7 @@ const $ = id => document.getElementById(id);
 
 // ── content into the shell ──
 $('hero-tagline').textContent = PROFILE.tagline;
+$('hero-name-link').href = PROFILE.links.find(l => l.label === 'GitHub').href;   // 2026-11-12 Austin: the name opens GitHub
 const resume = PROFILE.links.find(l => /resume|cv/i.test(l.label));
 if (resume) $('nav-resume').href = resume.href; else $('nav-resume').remove();
 $('contact-email').textContent = PROFILE.email; $('contact-email').href = `mailto:${PROFILE.email}`;
