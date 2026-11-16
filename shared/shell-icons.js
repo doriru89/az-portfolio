@@ -24,6 +24,7 @@ export const ICONS = {
   cross: P('M9 3h6v6h6v6h-6v6H9v-6H3V9h6z'),
   coffee: P('M5 9h11v6a5 5 0 01-5 5h-1a5 5 0 01-5-5z') + P('M16 11h1.5a2.5 2.5 0 010 5H16') + P('M8 3.5c0 1.5 1 1.5 1 3M12 3.5c0 1.5 1 1.5 1 3'),
   fold: P('M4 4h7v16H4z') + P('M13 4h7v16h-7z') + P('M8 12h8M14 9.5l2.5 2.5-2.5 2.5'),
+  tag: P('M3 12.5V4h8.5l9 9-8.5 8.5z') + '<circle cx="7.5" cy="8" r="1.6"/>' + P('M11 13l3 3M13 11l3 3'),
   rocket: P('M12 2.5c3 2.5 4.5 6 4.5 10L14 16h-4l-2.5-3.5c0-4 1.5-7.5 4.5-10z') + '<circle cx="12" cy="9.5" r="1.6"/>' + P('M7.5 12.5L5 15l1 3 3-2M16.5 12.5L19 15l-1 3-3-2M11 19l1 2.5 1-2.5'),
 };
 // project id -> [icon, x, y, phone x, phone y, bob] (fractions of the viewport; y is the icon's top, the label hangs under it).
@@ -44,6 +45,7 @@ const HOT = {
   shop:        ['compass',  .80,  .16,   .44, .615, [5.8, 7, 3.0, -1.5, .7]],
   artopath:    ['graph',    .89,  .31,   .13, .575, [4.9, 4, 1.8,  .8, -1.6]],
   ridecompare: ['fold',     .82,  .56,   .86, .225, [6.7, 8, .9,  -1.0, 1.2]],
+  resale:      ['tag',      .93,  .45,   .78, .665, [5.5, 6, 2.6,  1.2, -.9]],   // 2026-11-16 Austin: takes the pixel star's slot
 };
 
 // 2026-11-05 Austin: four more, more visible, pixel style. Placeholder slots for projects he will add later.
@@ -55,7 +57,7 @@ const SPRITES = {
   star:    ['....#.....', '....#.....', '...#+#....', '####+####.', '.#+++++#..', '..#+++#...', '..#+.+#...', '.#+...+#..', '.#.....#..', '..........'],
 };
 const PIXEL_SLOTS = [  // [sprite, x, y (fractions of the viewport), colourA idx, colourB idx, phone x, phone y]; accents in the gaps the project icons leave (phone x `false`: not on phones)
-  ['invader', .27, .60, 3, 3, .10, .68], ['pad', .06, .30, 4, 2, .88, .135], ['star', .955, .45, 2, 1, false],
+  ['invader', .27, .60, 3, 3, .10, .68], ['pad', .06, .30, 4, 2, .88, .135]
 ];
 const pixelSvg = (rows, a, b) => `<svg viewBox="0 0 10 10" shape-rendering="crispEdges" aria-hidden="true">${rows.map((r, y) => [...r].map((c, x) =>
   c === '#' ? `<rect x="${x}" y="${y}" width="1" height="1" fill="${a}"/>` : c === '+' ? `<rect x="${x}" y="${y}" width="1" height="1" fill="${b}"/>` : '').join('')).join('')}</svg>`;
@@ -66,7 +68,7 @@ export function mountIconField(el, { projects = [], colors = [], onOpen = () => 
   const layer = document.createElement('div');
   layer.className = 'icon-field__layer';
   el.appendChild(layer);
-  const names = Object.keys(ICONS).filter(n => !['cross', 'laptop', 'terminal', 'graph', 'fold', 'compass', 'rocket'].includes(n));
+  const names = Object.keys(ICONS).filter(n => !['cross', 'laptop', 'terminal', 'graph', 'fold', 'compass', 'rocket', 'tag'].includes(n));
   const svg = (n, sw = 1.5) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]}</svg>`;
   let hots = [];
 

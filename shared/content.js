@@ -96,6 +96,22 @@ export const PROJECTS = [
     image: 'assets/screens/shop.jpg', imageNote: 'Screenshot of the public demo.',
     demoUrl: 'https://doriru89.github.io/wiseshopper/demo/shop-workflow.html' },   // 2026-11-06: repo renamed doriru89/wiseshopper, Pages enabled; the pill opens the interactive demo, the README is one click from there
 
+  // 2026-11-16: Resale Hub, public at github.com/doriru89/resale-hub (plugin + skill); numbers from its 2026 tax.csv and test suite. No money totals on purpose (Austin).
+  { id: 'resale', name: 'Resale Hub', kicker: 'Open-source Claude Code plugin · from camera roll to tax worksheet',
+    title: 'Take the pictures; Claude does the rest, up to the Publish button',
+    impact: '99 of my own things sold in 2026 · every eBay order reconciled to the cent · nothing posts without me',
+    description: 'A resale skill for Claude Code. It sorts a camera roll into items, names each model from the photos and stops to ask when a photo can’t tell, prices from eBay’s sold listings in a signed-in browser, and fills eBay, Facebook Marketplace and Mercari drafts. I press Publish. When things sell, it records the real payout and writes the year’s tax worksheet.',
+    details: [
+      'One writer: every record goes through a validated, locked, revision-checked store; a plugin hook blocks any other path, shell redirects included',
+      'Refuses instead of backfilling: no sale is recorded without its date, payout, cost basis and order number, because recording it deletes the photos',
+      'Knows which sales the IRS cares about: a personal item sold at a loss is not income, a 1099-K’s gross (price + shipping) is backed out, and a payout that reaches 60% of a guessed cost asks for the receipt',
+    ],
+    tech: ['Claude Code plugin', 'Python · pydantic', 'Playwright MCP', 'Remotion'],
+    year: '2026', role: 'Designer & sole builder',
+    image: 'assets/screens/resale.jpg', images: ['assets/screens/resale.jpg', 'assets/screens/resale-tax.jpg'],
+    imageNote: 'Frames from the demo film: my own photos and 2026 records.',
+    demoUrl: 'https://doriru89.github.io/resale-hub/' },
+
   // 2026-11-06: sixth card — Ride Compare, public at github.com/doriru89/ride-compare (Android utility Austin built with an AI assistant on his phone; numbers from the repo's README/VALIDATION.md and the LinkedIn draft)
   { id: 'ridecompare', name: 'Ride Compare', kicker: 'Android utility · built by chatting with an AI on the phone itself',
     title: 'Pick a destination once; Uber and Lyft open side by side with the same route',

@@ -4,7 +4,7 @@ All copy lives in `shared/content.js`. This file records where it comes from and
 
 ## Positioning
 
-Tagline: **"I design AI that sharpens people’s judgment."** Leader card (Profile Box, first card; `PROFILE.headline` then `PROFILE.lead`): **"I use AI to make work a little more fun, more accessible, and more human."** / "AI takes the repetitive work; people stay in the pilot seat." / "I make information clear at a glance and traceable to its source, so people can check it, correct it, and keep thinking." (Austin, 2026-11-09; the lever under the evidence: Sales Buddy's plain-language reasons, Artopath's source labels, CareCost's sourced prices.) The enterprise evidence is Lenovo (research → budget → launch → adoption); the personal evidence is CareCost, Artopath, WiseShopper and Ride Compare (built end to end with AI tooling); Asteria is the agent-governance story (what runs alone, what needs a human signature).
+Tagline: **"I design AI that sharpens people’s judgment."** Leader card (Profile Box, first card; `PROFILE.headline` then `PROFILE.lead`): **"I use AI to make work a little more fun, more accessible, and more human."** / "AI takes the repetitive work; people stay in the pilot seat." / "I make information clear at a glance and traceable to its source, so people can check it, correct it, and keep thinking." (Austin, 2026-11-09; the lever under the evidence: Sales Buddy's plain-language reasons, Artopath's source labels, CareCost's sourced prices.) The enterprise evidence is Lenovo (research → budget → launch → adoption); the personal evidence is CareCost, Artopath, WiseShopper, Resale Hub and Ride Compare (built end to end with AI tooling); Asteria is the agent-governance story (what runs alone, what needs a human signature).
 
 ## Cards, in order
 
@@ -15,6 +15,7 @@ Tagline: **"I design AI that sharpens people’s judgment."** Leader card (Profi
 | Asteria | personal agent workbench (harness on Claude Code) | schematic (`src/asteria.html`) | public shell + demo at doriru89.github.io/asteria | `doriru89/asteria` · MIT |
 | Chronicle | Asteria's visual layer: every AI coding session as a quest; its own card on purpose (Austin, 2026-11-06) | screenshot of the public page (fictional data) | doriru89.github.io/asteria/chronicle.html | `doriru89/asteria` · MIT |
 | WiseShopper | open-source Claude Code skill (`/shop`) | screenshot of the public demo | live demo at doriru89.github.io/wiseshopper/demo/shop-workflow.html (Pages enabled 2026-11-06) | `doriru89/wiseshopper` (was `shop-skill`; GitHub redirects) · MIT |
+| Resale Hub | open-source Claude Code plugin (`/resale`); no money totals on purpose (Austin, 2026-11-16) | two frames from the demo film (own photos and 2026 records) | animated demo at doriru89.github.io/resale-hub | `doriru89/resale-hub` · MIT |
 | Ride Compare | Android utility, public repo | schematic (`src/ridecompare.html`) | GitHub repo | `doriru89/ride-compare` · MIT |
 | Artopath | personal media library | real screenshot | live demo `doriru89.github.io/artopath/` (API on Cloud Run) | public (`doriru89/artopath`) |
 
